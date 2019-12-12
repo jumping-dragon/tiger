@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+
+ mysql-development:
+    image: mysql:5.7.9
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345678
+      MYSQL_DATABASE: tiger
+    ports:
+      - "3308:3306"
+  
+ phpmyadmin:
+    depends_on:
+      - mysql-development
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      PMA_HOST: mysql-development
+      
+ tigers:
+    depends_on:
+      - mysql-development
+    image: node:11
+    restart: always
+    ports:
+      - '8090:8089'
+    volumes:
+      - .:/usr/src/services
+    working_dir: /usr/src/services
+    command: npm init -y
+    command: npm install
+    command: npm run start

@@ -1,0 +1,52 @@
+<!-- Main Stylesheet File -->
+  <link href="css/userprofile.css" rel="stylesheet">
+<!--==========================
+    Intro Section
+  ============================-->
+  <section id="intro">
+    <div class="container">
+      <div class="intro-text row">
+        <div class="col">
+          <h2><%- user.name %></h2>
+
+          <h2>This is profile page</h2>
+        </div>
+      </div>
+
+    </div>
+  </section><!-- #intro -->
+    
+<!--==========================
+Recommended Section
+============================-->
+<section id="team recom" class="section-bg"  style="padding-top: 100px">
+  <div class="container">
+  
+  
+          <h2 id="history">This is history page</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vitae consectetur turpis, feugiat pretium lorem. Etiam dictum imperdiet neque vitae pharetra. Phasellus tellus nunc, faucibus in tincidunt quis, varius molestie est. In sodales ex ut sapien varius consequat. Nam ex dolor, posuere ut urna ut, molestie facilisis odio. Cras blandit vel tellus sit amet interdum. Nam et ante vel ipsum malesuada cursus. Sed faucibus nisi in erat egestas pretium. Pellentesque vestibulum scelerisque nisi nec suscipit. In sed ex quis odio auctor scelerisque. Mauris sit amet pretium felis. Donec iaculis efficitur imperdiet. Quisque eu lacus varius, convallis neque quis, accumsan est. Praesent sollicitudin mattis dui ut pellentesque. Aliquam nec mi tortor. Donec vel neque eu mi commodo interdum non et justo.
+          </p>
+  </div>
+</section><!-- #team -->
+
+
+
+<script>
+      var span = document.getElementById('quantity'); // find the <span> element in the DOM
+      var x = span.value;
+      var increment = document.getElementById('increment'); // find the element with the ID 'increment'
+      var decrement = document.getElementById('decrement'); // find the element with the ID 'decrement'
+
+      increment.addEventListener('click', function () {
+        // this function is executed whenever the user clicks the increment button
+        span.value = x++;
+      });
+
+      decrement.addEventListener('click', function () {
+        if(span.value > 0){
+            // this function is executed whenever the user clicks the decrement button
+        span.value = x--;
+        }
+      });
+</script>

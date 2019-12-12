@@ -1,0 +1,142 @@
+<!-- Main Stylesheet File -->
+  <link href="css/resprofile.css" rel="stylesheet">
+<!--==========================
+    Intro Section
+  ============================-->
+  <section id="intro">
+    <div class="container">
+      <div class="intro-text row">
+        <div class="col">
+          <h2>restaurant-name</h2>
+        </div>
+      </div>
+
+    </div>
+  </section><!-- #intro -->
+    
+<!--==========================
+Recommended Section
+============================-->
+<section id="team recom" class="section-bg"  style="padding-top: 100px">
+  <div class="container">
+    <div class="section-header">
+      <h3 class="section-title">Popular on <i>restaurant-name</i></h3>
+      <span class="section-divider"></span>
+      <!--<p class="section-description"></p>-->
+    </div>
+    <div class="row wow fadeInUp">
+      <div class="col-lg-3 col-md-6">
+        <div class="member"><a href="#" data-toggle="modal" data-target="#foodModal">
+          <div class="pic"><img src="img/featured/featured-00001.jpg" alt=""></div>
+          <h4>Pek Cham Kee</h4>
+          <span>$300 NTD</span>
+          <p> <i class="fas fa-star"></i> 4.5 / 5</p>
+          <span>#categories</span>   
+        </a>       
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="member">
+          <div class="pic"><img src="img/featured/featured-00002.jpg" alt=""></div>
+          <h4>Burger</h4>
+          <span>$300 NTD</span>
+          <p> <i class="fas fa-star"></i> 4.5 / 5</p>
+          <span>#categories</span>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="member">
+          <div class="pic"><img src="img/featured/featured-00003.jpg" alt=""></div>
+          <h4>Steak</h4>
+          <span>$300 NTD</span>
+          <p> <i class="fas fa-star"></i> 4.5 / 5</p>
+          <span>#categories</span>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="member">
+          <div class="pic"><img src="img/featured/featured-00004.jpg" alt=""></div>
+          <h4>Shao Rou</h4>
+          <span>$300 NTD</span>
+          <p> <i class="fas fa-star"></i> 3.5 / 5</p>
+          <span>#categories</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section><!-- #team -->
+
+
+<!-- Modal -->
+<div class="modal fade text-center" id="foodModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="form">
+              <div id="errormessage"></div>
+              <form action="/users/order" method="post" role="form" class="orderForm">
+                  <div class="member">
+                    <div class="pic"><img src="img/featured/featured-00001.jpg" alt=""></div>
+                    <h4>Pek Cham Kee</h4>
+                    <span>$300 NTD</span>
+                    <p> <i class="fas fa-star"></i> 4.5 / 5</p>
+                    <span>#categories</span>          
+                  </div>
+                  <hr>
+                  <div class="form-group">
+                     <h5>Special instructions</h5>
+                     <textarea type="email" class="form-control" name="email" id="email" placeholder="You can write down here any special instructions" data-rule="order" data-msg="Order Invalid"></textarea>
+                    <div class="validation"></div>
+                  </div>
+                  
+                <div class="text-center">
+                  <div class="row">
+                  <div class="col-4">
+                    <div class="input-group">
+                      <span class="input-group-btn">
+                        <button type="button" id="decrement" class="quantity-left-minus btn btn-danger btn-number"  data-type="minus" data-field="">
+                          <span class="fas fa-minus"></span>
+                        </button>
+                      </span>
+                      <input type="text" id="quantity" name="quantity" class="input-number text-center" value="1" min="1" max="100">
+                      <span class="input-group-btn">
+                        <button type="button" id="increment" class="quantity-right-plus btn btn-success btn-number" data-type="plus" data-field="">
+                          <span class="fas fa-plus"></span>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-8">
+                  <button class="modal-cart-btn form-control" id="cartButton">Add to Cart</button>
+                  </div>
+                </div>
+                </div>
+              </form>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+      var span = document.getElementById('quantity'); // find the <span> element in the DOM
+      var x = span.value;
+      var increment = document.getElementById('increment'); // find the element with the ID 'increment'
+      var decrement = document.getElementById('decrement'); // find the element with the ID 'decrement'
+
+      increment.addEventListener('click', function () {
+        // this function is executed whenever the user clicks the increment button
+        span.value = x++;
+      });
+
+      decrement.addEventListener('click', function () {
+        if(span.value > 0){
+            // this function is executed whenever the user clicks the decrement button
+        span.value = x--;
+        }
+      });
+</script>
