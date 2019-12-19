@@ -28,6 +28,12 @@ app.set('view engine', 'ejs');
 
 //STATICS
 app.use(express.static('public'))
+app.use('/admin', express.static('admin_public'))
+
+app.get('/admin', (req,res) =>{
+   res.sendFile('index.html', { root: path.join('/', '../admin_public') });
+});
+
 
 // Express body parser
 app.use(express.urlencoded({ extended: true }));
