@@ -25,15 +25,11 @@ app.use(session({
 // EJS
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
+app.set('views', ['./views','./admin_views']);
 
 //STATICS
 app.use(express.static('public'))
 app.use('/admin', express.static('admin_public'))
-
-app.get('/admin', (req,res) =>{
-   res.sendFile('index.html', { root: path.join('/', '../admin_public') });
-});
-
 
 // Express body parser
 app.use(express.urlencoded({ extended: true }));
@@ -41,6 +37,7 @@ app.use(express.urlencoded({ extended: true }));
 // ROUTES
 app.use('/', require('./route/pages.js'));
 app.use('/users', require('./route/users.js').route);
+app.use('/admin', require('./route/admin.js'));
 
 //API
 // app.use('/email', require('./gmail/email.js'))
