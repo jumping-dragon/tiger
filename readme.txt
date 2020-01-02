@@ -11,3 +11,7 @@ DB INIT
  user: "root",
  password: "<yourpassword>",
  database: "tiger"
+
+2. Go to phpmyadmin and login
+3. Click on SQL tab, copy and paste init.sql to the blank space
+4. Click on go
