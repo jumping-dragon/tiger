@@ -83,6 +83,17 @@
   outline: none;
 }
 
+.nav-menu form {
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  display: inline-block;
+  color: #fff;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  outline: none;
+}
+
 .nav-menu > li {
   margin-left: 10px;
 }
@@ -235,6 +246,19 @@ body.mobile-nav-active #mobile-nav-toggle {
   border: 1px solid #fff;
   color: #fff;
 }
+
+.src-login{
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 1px;
+  display: inline-block;
+  border-radius: 50px;
+  transition: 0.7s;
+  border: 1px solid #fff;
+  color: #fff;
+}
+
 
 .btn-logged-in{
   font-family: "Montserrat", sans-serif;

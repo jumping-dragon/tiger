@@ -36,7 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // ROUTES
 app.use('/', require('./route/pages.js'));
-app.use('/users', require('./route/users.js').route);
+//app.use('/users', require('./route/users.js').route);
 app.use('/admin', require('./route/admin.js'));
 
 //API
