@@ -1,0 +1,172 @@
+<style>
+  .edit-profile{
+   width:100%; 
+   border-radius:50%;
+   margin-top:5px;
+   opacity:100%;
+   -webkit-transition: opacity 0.5s ease-out;
+   -moz-transition: opacity 0.5s ease-out;
+   -o-transition: opacity 0.5s ease-out;
+   transition: opacity 0.5s ease-out;
+   background-color:white;
+  }
+  .edit-profile:hover{
+   opacity:50%;
+   cursor:pointer;
+  }
+  .no-border {
+    overflow-wrap: break-word;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    width: auto;
+    font-weight: 400;
+    line-height: 1;
+    color: #495057;
+  }
+  input.form-control {
+  width: auto;
+}
+</style>
+
+
+<div class="content-wrapper">
+  <div class="row">
+    <div class="col-md-12 grid-margin">
+      <div class="d-flex justify-content-between flex-wrap">
+        <div class="d-flex align-items-end flex-wrap">
+          <div class="mr-md-3 mr-xl-5 ml-3">
+            <h1>Run the Day, or the Day Runs You</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <!-- Restaurant Information -->
+    <div class="col-md-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h3>Edit Profiles</h3>
+          <hr>
+          <form class="forms-sample">
+            <!-- Restaurant Full Name -->
+            <div class="form-group">
+              <label for="inlineFormInputName2">Restaurant Full Name</label>
+              <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Tiger Express">
+            </div>
+
+            <div class="form-group">
+              <label for="inlineFormInputGroupUsername2">Username</label>
+              <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">@</div>
+                </div>
+                <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Username">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Login Information -->
+    <div class="col-md-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <form class="forms-sample">
+
+            <div class="row">
+              <div class="col text-center">
+              <label for="exampleInputEmail2"><img src="images/faces/face1.jpg" alt="profile" class="edit-profile"/></label>
+              <input type="file" class="custom-file-input" id="exampleInputEmail2" style="display:none">
+              <p>Click to Upload a new Avatar</p>
+              </div>
+            </div>
+
+            <hr>
+            <div class="form-group row">
+              <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Email</label>
+              <div class="col-sm-9">
+                <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="exampleInputMobile" class="col-sm-3 col-form-label">Mobile</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="exampleInputMobile" placeholder="Mobile number">
+              </div>
+            </div>
+            <hr>
+            <div class="form-group row"   style="color:grey !important">
+              <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Change Password</label>
+              <div class="col-sm-9">
+                <input type="password" class="form-control" id="exampleInputPassword2" placeholder="***" readonly>
+              </div>
+            </div>
+            <div class="form-group row"  style="color:grey !important">
+              <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Re-enter Change Password</label>
+              <div class="col-sm-9">
+                <input type="password" class="form-control" id="exampleInputConfirmPassword2" placeholder="Password" readonly>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <p class="card-title">Latest Menus</p>
+          <div class="table-responsive">      
+
+            <form>
+            <table class="table table-hover" style="width:100%" id="latest-menu">
+              <thead>
+                <tr>
+                    <th><span class="mx-2">Name</span></th>
+                    <th><span class="mx-2">Price</span></th>
+                    <th>Description</th>
+                    <th><span class="mx-2">Ready</span></th>
+                    <th><span class="mx-2">Tags</span></th>
+                </tr>
+              </thead>
+            </table>
+            <button type="submit" class="btn btn-primary mr-2">Update</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- content-wrapper ends -->
+<!-- partial:../../partials/_footer.html -->
+<footer class="footer">
+  <div class="d-sm-flex justify-content-center justify-content-sm-between">
+    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2020 <a href="#" target="_blank">Tiger Express</a>. All rights reserved.</span>
+  </div>
+</footer>
+<!-- partial -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+<link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.18/datatables.min.css"
+    />
+
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.18/datatables.min.js"
+    ></script>
+<script>
+     $("#latest-menu").DataTable({
+          scrollY: 400,
+          processing: true,
+          serverSide: true,
+          ajax: "/admin/data"
+      });
+</script>

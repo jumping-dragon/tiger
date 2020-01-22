@@ -21288,16 +21288,6 @@ dl li {
   padding: 0;
 }
 
-.sidebar .nav.sub-menu .nav-item::before {
-  content: '';
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #000;
-  margin-top: 15px;
-}
-
 .sidebar .nav.sub-menu .nav-item .nav-link {
   color: #333333;
   padding: 0.6rem 1rem;
@@ -21469,7 +21459,7 @@ dl li {
 }
 
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item .nav-link {
-  color: #ffffff;
+  color: #4a4a4a;
   font-size: 0.875rem;
 }
 

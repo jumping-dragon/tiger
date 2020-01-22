@@ -2,22 +2,7 @@ const express = require('express');
 const router = express.Router();
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./db')
-
-router.get('/', (req,res) =>{
-	 res.render('body', { layout: 'admin_layout' });
-});
-
-router.get('/dashboard', (req,res) =>{
-	 res.render('body', { layout: 'admin_layout' });
-});
-
-router.get('/login', (req,res) =>{
-	 res.render('login',{ layout: 'blank' });
-});
-
-router.get('/register', (req,res) =>{
-	 res.render('register',{ layout: 'blank' });
-});
+const NodeTable = require("./Nodetables");
 
 router.post('/login', (req,res) =>{
 	const {email, password} = req.body;
@@ -81,13 +66,71 @@ router.get('/logout', function(req, res, next) {
       if(err) {
         return next(err);
       } else {
-        return res.redirect('/admin/login');
+        return res.redirect('/dashboard/login');
       }
     });
   }
 });
 
+router.get("/data", (req, res, next) => {
 
+  // Get the query string paramters sent by Datatable
+  const requestQuery = req.query;
+  console.log(requestQuery);
+  /**
+   * This is array of objects which maps 
+   * the database columns with the Datatables columns
+   * db - represents the exact name of the column in your table
+   * dt - represents the order in which you want to display your fetched values
+   * If your want any column to display in your datatable then
+   * you have to put an enrty in the array , in the specified format
+   * carefully setup this structure to avoid any errors
+   */
+  let columnsMap = [
+    {
+      db: "name",
+      dt: 0
+    },
+    {
+      db: "price",
+      dt: 1
+    },
+    {
+      db: "description",
+      dt: 2
+    },
+    {
+      db: "status",
+      dt: 3
+    },
+    {
+      db: "tags",
+      dt: 4
+    }
+  ];
+
+  // our database table name
+  // const tableName = "users"
+
+  // Custome SQL query
+  const query = "SELECT * FROM products";
+
+  // NodeTable requires table's primary key to work properly
+  const primaryKey = "product_id";
+  
+  const nodeTable = new NodeTable(requestQuery, db, query, primaryKey, columnsMap);
+ 
+  nodeTable.output((err, data)=>{
+    if (err) {
+      console.log(err);
+      return;
+    }
+
+    // Directly send this data as output to Datatable
+    res.send(data)
+  })
+  
+});
 
 
 

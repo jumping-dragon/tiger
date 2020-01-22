@@ -146,13 +146,7 @@
       .nav-item {
         padding: 0;
         &::before {
-          content: '';
-          position: absolute;
-          width: 5px;
-          height: 5px;
-          border-radius: 50%;
-          background: #000;
-          margin-top: 15px;
+         
         }
         .nav-link {
           color: $sidebar-light-submenu-color;

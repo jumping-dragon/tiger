@@ -49,8 +49,7 @@ router.post('/signup', (req,res) =>{
 		email : email,
 		student_id : student_id,
 		phone_number : phone_number,
-		password : password,
-		order : 0
+		password : password
 	}
 	//succeed! registering to database!
     db.query('INSERT INTO `user-accounts` SET ?', user, (err, res) => {

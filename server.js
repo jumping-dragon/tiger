@@ -29,17 +29,18 @@ app.set('views', ['./views','./admin_views']);
 
 //STATICS
 app.use(express.static('public'))
-app.use('/admin', express.static('admin_public'))
+app.use('/dashboard', express.static('admin_public'))
 
 // Express body parser
 app.use(express.urlencoded({ extended: true }));
 
 // ROUTES
 app.use('/', require('./route/pages.js'));
-//app.use('/users', require('./route/users.js').route);
+app.use('/users', require('./route/users.js').route);
+app.use('/dashboard', require('./route/admin_pages.js'));
 app.use('/admin', require('./route/admin.js'));
 
-//API
+// API
 // app.use('/email', require('./gmail/email.js'))
 
 app.get('/email_api', (req,res) =>{
