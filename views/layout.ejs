@@ -25,6 +25,7 @@
   <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
   <link href="lib/ionicons/css/ionicons.min.css" rel="stylesheet">
   <link href="lib/magnific-popup/magnific-popup.css" rel="stylesheet">
+  <link href="lib/growl-notification/colored-theme.min.css" rel="stylesheet">
 
 
   <link href="css/nav.css" rel="stylesheet">
@@ -59,8 +60,10 @@
               aria-label="Search" style="color: #fff;background: transparent;border: 0px solid #ced4da;outline: 0px">
             </form>
           </li>
+          
           <li><a href="/catalog">Restaurant</a></li>
           <li id="drop-after-login"><a class="btn-login" id="login-button" href="#" data-toggle="modal" data-target="#loginModal">Log In</a></li>
+
         </ul>
       </nav><!-- #nav-menu-container -->
     </div>
@@ -361,14 +364,38 @@ Interested? Let's start our partnership today!</p>
 
   <!-- Contact Form JavaScript File -->
   <script src="contactform/contactform.js"></script>
+  <script src="lib/growl-notification/growl-notification.min.js"></script>
 
   <!-- Template Main Javascript File -->
   <script src="js/main.js"></script>
   <script>
+     
       function capitalizeFirstLetter(string) {
           return string.charAt(0).toUpperCase() + string.slice(1);
       } 
-      console.log(user);
+      
+      if(<%- JSON.stringify(success_msg) %> != ''){
+      var messages = <%- JSON.stringify(success_msg) %> ;
+       GrowlNotification.notify({
+        title: 'Well Done!',
+        description: messages,
+        type: 'success',
+        position: 'bottom-right',
+        closeTimeout: 2000
+        });
+      };
+
+      if(<%- JSON.stringify(error_msg) %> != ''){
+      var messages = <%- JSON.stringify(error_msg) %> ;
+       GrowlNotification.notify({
+        title: 'Sorry',
+        description: messages,
+        type: 'error',
+        position: 'bottom-right',
+        closeTimeout: 2000
+        });
+      };
+
       if(<%- JSON.stringify(user) %>){
       var user = <%- JSON.stringify(user) %> ;
       var dropDowns = '<ul>\

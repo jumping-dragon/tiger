@@ -1,18 +1,33 @@
 const express = require('express');
 const router = express.Router();
-var gold = new Object();
-gold.name = "gold";
 
+router.get('/app', (req,res) =>{
+    req.flash('success_msg', 'Hello');
+    console.log("GOGO");
+    console.log(req.prevPath);
+    res.redirect(req.prevPath);
+});
+
+router.get('/err', (req,res) =>{
+    req.flash('error_msg', 'Sorry');
+    console.log("GOGO");
+    console.log(req.prevPath);
+    res.redirect(req.prevPath);
+});
 
 router.get('/', (req,res) =>{
     if(req.session.user){
     res.render('index',{
-      user : req.session.user
+      user : req.session.user,
+      success_msg: req.flash('success_msg'),
+      error_msg: req.flash('error_msg') 
     })
     }
     else{
     res.render('index',{
-      user : false
+      user : false,
+      success_msg: req.flash('success_msg'),
+      error_msg: req.flash('error_msg') 
     });
     }
 });
@@ -20,12 +35,16 @@ router.get('/', (req,res) =>{
 router.get('/catalog', (req,res) =>{
     if(req.session.user){
     res.render('resto',{
-      user : req.session.user
+      user : req.session.user,
+      success_msg: req.flash('success_msg'),
+      error_msg: req.flash('error_msg') 
     })
     }
     else{
     res.render('resto',{
-      user : false
+      user : false,
+      success_msg: req.flash('success_msg'),
+      error_msg: req.flash('error_msg') 
     });
     }
 });
@@ -33,12 +52,16 @@ router.get('/catalog', (req,res) =>{
 router.get('/resprofile', (req,res) =>{
     if(req.session.user){
     res.render('resprofile',{
-      user : req.session.user
+      user : req.session.user,
+      success_msg: req.flash('success_msg'),
+      error_msg: req.flash('error_msg') 
     })
     }
     else{
     res.render('resprofile',{
-      user : false
+      user : false,
+      success_msg: req.flash('success_msg'),
+      error_msg: req.flash('error_msg') 
     });
     }
 });
@@ -46,12 +69,16 @@ router.get('/resprofile', (req,res) =>{
 router.get('/catalog', (req,res) =>	{
     if(req.session.user){
     res.render('resto',{
-      user : req.session.user
+      user : req.session.user,
+      success_msg: req.flash('success_msg'),
+      error_msg: req.flash('error_msg') 
     })
     }
     else{
     res.render('resto',{
-      user : false
+      user : false,
+      success_msg: req.flash('success_msg'),
+      error_msg: req.flash('error_msg') 
     });
     }
 });
@@ -60,12 +87,16 @@ router.get('/catalog', (req,res) =>	{
 router.get('/profile', (req,res) =>{
     if(req.session.user){
     res.render('userprofile',{
-      user : req.session.user
+      user : req.session.user,
+      success_msg: req.flash('success_msg'),
+      error_msg: req.flash('error_msg') 
     })
     }
     else{
     res.render('userprofile',{
-      user : false
+      user : false,
+      success_msg: req.flash('success_msg'),
+      error_msg: req.flash('error_msg') 
     });
     }
 });

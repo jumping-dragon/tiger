@@ -6,20 +6,22 @@ router.post('/login', (req,res) =>{
 	const {email, password} = req.body;
 	console.log("Log-in request by ",email," with password ",password);
 	if (email && password) {
-		db.query('SELECT * FROM `user-accounts` WHERE email = ? AND `password` = ?', [email, password], function(error, results, fields) {
-			console.log(results);
+		db.query('SELECT * FROM `user_accounts` WHERE email = ? AND `password` = ?', [email, password], function(error, results, fields) {
 			if (results.length > 0) {
 				req.session.loggedin = true;
 				req.session.user = results[0];
-				res.redirect('/');
+	    		req.flash('success_msg', 'Successfully Signed In');
+				res.redirect(req.prevPath);
 			} else {
-				res.send('Incorrect Email and/or Password!');
+				req.flash('error_msg', 'Incorrect Email and/or Password!');
+				res.redirect(req.prevPath);
+				return
 			}			
 			res.end();
 		});
 	} else {
-		res.send('Please enter Email and Password!');
-		res.end();
+		req.flash('error_msg', 'Please enter Email and Password!');
+		res.redirect(req.prevPath);
 	}
 }
 );
@@ -33,37 +35,47 @@ router.post('/signup', (req,res) =>{
 	/// Verifications
 	if(password != password2){errors.push('Password do not match')};
 	//ADD OTHERS
-	if(errors.length > 0){res.send(errors)}
+	if(errors.length > 0){
+		req.flash('error_msg', errors);
+		res.redirect(req.prevPath);
+	}
 
 	//heavy verification
 	if(errors <= 0){
-	db.query('SELECT * FROM `user-accounts` WHERE email = ? AND `password` = ?', [email, password], function(error, results, fields) {
-			if (results.length > 0) {
-				errors.push('This Email Has Been Registered')
-			} 		
-			res.end();
-	})
-
-	let user = {
-		name : name,
-		email : email,
-		student_id : student_id,
-		phone_number : phone_number,
-		password : password
-	}
-	//succeed! registering to database!
-    db.query('INSERT INTO `user-accounts` SET ?', user, (err, res) => {
-    		 console.log('succeed');
-    		 });
-   	res.redirect('/');
-	};
+	db.query('SELECT * FROM `user_accounts` WHERE email = ? AND `password` = ?', [email, password], function(error, results, fields) {
+		console.log(results);
+		if (results.length > 0) {
+		req.flash('error_msg', 'This Email Has Been Registered!');
+		res.redirect(req.prevPath);
+		return
+		}
+		else{ 		
+		let user = {
+			name : name,
+			email : email,
+			student_id : student_id,
+			phone_number : phone_number,
+			password : password
+		}
+		//succeed! registering to database!
+	    db.query('INSERT INTO `user_accounts` SET ?', user, (err, result) => {
+	   		if(err){return err};
+		    console.log(result);
+		    req.session.loggedin = true
+			req.session.user = user;
+		    req.flash('success_msg', 'Successfully Signed In');
+		    res.redirect(req.prevPath);
+		    return
+	    })
+		}
+	})};
 });
 
 router.post('/forgot', (req,res) =>{
 	const {email} = req.body;
 	console.log("Forgot request by ",email);
 	if (email) {
-		db.query('SELECT * FROM `user-accounts` WHERE email = ?', [email], function(error, results, fields) {
+		db.query('SELECT * FROM `user_accounts` WHERE email = ?', [email], function(error, results, fields) {
 			if (results.length > 0) {
 				var forgot_user = results[0]
 				console.log(forgot_user);
@@ -87,14 +99,11 @@ router.post('/forgot', (req,res) =>{
 
 router.get('/logout', function(req, res, next) {
   if (req.session) {
-    // delete session object
-    req.session.destroy(function(err) {
-      if(err) {
-        return next(err);
-      } else {
-        return res.redirect('/');
-      }
-    });
+    req.session.regenerate(function(err) {
+   	if(err){return err};
+    req.flash('success_msg', 'Successfully Signed Out');
+	res.redirect(req.prevPath);
+	})
   }
 });
 

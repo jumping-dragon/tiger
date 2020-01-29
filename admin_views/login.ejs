@@ -9,6 +9,7 @@
   <!-- plugins:css -->
   <link rel="stylesheet" href="./vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="./vendors/base/vendor.bundle.base.css">
+  <link href="vendors/growl-notification/colored-theme.min.css" rel="stylesheet">
   <!-- endinject -->
   <!-- plugin css for this page -->
   <!-- End plugin css for this page -->
@@ -64,7 +65,7 @@
                   </button>
                 </div> -->
                 <div class="text-center mt-4 font-weight-light">
-                  Don't have an account? <a href="/admin/register" class="text-primary">Register your Restaurant</a>
+                  Don't have an account? <a href="/dashboard/register" class="text-primary">Register your Restaurant</a>
                 </div>
               </form>
             </div>
@@ -78,11 +79,35 @@
   <!-- container-scroller -->
   <!-- plugins:js -->
   <script src="./vendors/base/vendor.bundle.base.js"></script>
+  <script src="vendors/growl-notification/growl-notification.min.js"></script>
   <!-- endinject -->
   <!-- inject:js -->
   <script src="./js/off-canvas.js"></script>
   <script src="./js/hoverable-collapse.js"></script>
   <script src="./js/template.js"></script>
+  <script>
+    if(<%- JSON.stringify(success_msg) %> != ''){
+      var messages = <%- JSON.stringify(success_msg) %> ;
+       GrowlNotification.notify({
+        title: 'Well Done!',
+        description: messages,
+        type: 'success',
+        position: 'top-right',
+        closeTimeout: 2000
+        });
+      };
+
+      if(<%- JSON.stringify(error_msg) %> != ''){
+      var messages = <%- JSON.stringify(error_msg) %> ;
+       GrowlNotification.notify({
+        title: 'Sorry',
+        description: messages,
+        type: 'error',
+        position: 'top-right',
+        closeTimeout: 2000
+        });
+      };
+  </script>
   <!-- endinject -->
 </body>
 
