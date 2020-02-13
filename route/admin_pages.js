@@ -4,9 +4,9 @@ const expressLayouts = require('express-ejs-layouts');
 const db = require('./db')
 
 router.get('/', (req,res) =>{
-    // if(req.session.user){
+    // if(req.session.res_user){
     res.render('body',{
-      user : req.session.user,
+      user : req.session.res_user,
       layout: 'admin_layout'
     })
     // }
@@ -16,9 +16,9 @@ router.get('/', (req,res) =>{
 });
 
 router.get('/analytics', (req,res) =>{
-	if(req.session.user){
+	if(req.session.res_user){
     res.render('body',{
-      user : req.session.user,
+      user : req.session.res_user,
       layout: 'admin_layout'
     })
     }
@@ -28,9 +28,9 @@ router.get('/analytics', (req,res) =>{
 });
 
 router.get('/manage', (req,res) =>{
-	   if(req.session.user){
+	if(req.session.res_user){
     res.render('manage',{
-      user : req.session.user,
+      user : req.session.res_user,
       layout: 'admin_layout'
     })
     }
@@ -40,9 +40,9 @@ router.get('/manage', (req,res) =>{
 });
 
 router.get('/stocks', (req,res) =>{
-	   if(req.session.user){
+	   if(req.session.res_user){
     res.render('body',{
-      user : req.session.user,
+      user : req.session.res_user,
       layout: 'admin_layout'
     })
     }
@@ -52,9 +52,9 @@ router.get('/stocks', (req,res) =>{
 });
 
 router.get('/billings', (req,res) =>{
-	   if(req.session.user){
+	if(req.session.res_user){
     res.render('body',{
-      user : req.session.user,
+      user : req.session.res_user,
       layout: 'admin_layout'
     })
     }
@@ -64,11 +64,16 @@ router.get('/billings', (req,res) =>{
 });
 
 router.get('/login', (req,res) =>{
-	 res.render('login',{ 
+    if(req.session.res_user){
+    res.redirect('/dashboard')
+    }
+    else{
+    res.render('login',{ 
         layout: 'blank' ,
         success_msg: req.flash('success_msg'),
         error_msg: req.flash('error_msg') 
     });
+    }
 });
 
 router.get('/register', (req,res) =>{

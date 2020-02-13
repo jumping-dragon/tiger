@@ -34,17 +34,17 @@
     `name` varchar(100) NOT NULL,
     `restaurant_id` varchar(50) NOT NULL,
     `price` decimal(10,2) NOT NULL,
-    `description` varchar(500) NOT NULL,
-    `status` BOOLEAN,
-    `tags` varchar(50) NOT NULL,
+    `description` varchar(500),
+    `status` BOOLEAN NOT NULL,
+    `tags` varchar(50),
     PRIMARY KEY (`product_id`)
   )ENGINE=InnoDB DEFAULT CHARSET=utf8;
-  INSERT INTO `products` (`name`, `restaurant_id`,`price`,`description`,`tags`) 
-  VALUES ('first product', '1', 352,'this is the first product','#first');
-  INSERT INTO `products` (`name`, `restaurant_id`,`price`,`description`,`tags`) 
-  VALUES ('second product', '2', 452,'this is the second product','#second');
-  INSERT INTO `products` (`name`, `restaurant_id`,`price`,`description`,`tags`) 
-  VALUES ('third product', '3', 552,'this is the third product','#third');
+  INSERT INTO `products` (`name`, `restaurant_id`,`price`,`description`,`tags`,`status`) 
+  VALUES ('first product', '1', 352,'this is the first product','#first', 0);
+  INSERT INTO `products` (`name`, `restaurant_id`,`price`,`description`,`tags`,`status`) 
+  VALUES ('second product', '2', 452,'this is the second product','#second', 0);
+  INSERT INTO `products` (`name`, `restaurant_id`,`price`,`description`,`tags`,`status`) 
+  VALUES ('third product', '3', 552,'this is the third product','#third', 0);
 
 -- Create orders table
   CREATE TABLE IF NOT EXISTS `orders` (

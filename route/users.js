@@ -41,8 +41,8 @@ router.post('/signup', (req,res) =>{
 	}
 
 	//heavy verification
-	if(errors <= 0){
-	db.query('SELECT * FROM `user_accounts` WHERE email = ? AND `password` = ?', [email, password], function(error, results, fields) {
+	if(errors.length <= 0){
+	db.query('SELECT * FROM `user_accounts` WHERE email = ?', [email], function(error, results, fields) {
 		console.log(results);
 		if (results.length > 0) {
 		req.flash('error_msg', 'This Email Has Been Registered!');
@@ -59,7 +59,7 @@ router.post('/signup', (req,res) =>{
 		}
 		//succeed! registering to database!
 	    db.query('INSERT INTO `user_accounts` SET ?', user, (err, result) => {
-	   		if(err){return err};
+	   		if (err)  throw err;
 		    console.log(result);
 		    req.session.loggedin = true
 			req.session.user = user;

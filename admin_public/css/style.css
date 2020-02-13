@@ -20952,10 +20952,6 @@ dl li {
   padding: 1.1rem 0.9375rem;
 }
 
-.dataTables_wrapper .dataTable tbody tr:nth-child(odd) {
-  background: rgba(238, 238, 238, 0.57);
-}
-
 .dataTables_wrapper .dataTables_paginate {
   margin-top: 20px;
 }

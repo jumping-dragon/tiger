@@ -2,16 +2,7 @@ const express = require('express');
 const router = express.Router();
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./db')
-const knex = require('./knex');
-const {
-	Editor,
-	Field,
-	Validate,
-	Format,
-	Options
-} = require("datatables.net-editor-server");
-
-
+const NodeTable = require("./nodetables");
 
 router.post('/login', (req,res) =>{
 	const {email, password} = req.body;
@@ -21,8 +12,7 @@ router.post('/login', (req,res) =>{
 			console.log(results);
 			if (results.length > 0) {
 				req.session.loggedin = true;
-				req.session.user = results[0];
-				req.flash('success_msg', 'Successfully Signed In');
+				req.session.res_user = results[0];
 				res.redirect('/dashboard');
 			} else {
 				req.flash('error_msg', 'Incorrect Email and/or Password!');
@@ -34,11 +24,9 @@ router.post('/login', (req,res) =>{
 		req.flash('error_msg', 'Please enter Email and Password!');
 		res.redirect('/dashboard/login');
 	}
-}
-);
+});
 
 router.post('/signup', (req,res) =>{
-	console.log(req.body);
 	const {name, email, password, password2} = req.body;
 	let errors = [];
 	if(!password){errors.push('Please enter all fields!')};
@@ -52,32 +40,36 @@ router.post('/signup', (req,res) =>{
 	}
 
 	//heavy verification
-	if(errors <= 0){
-	db.query('SELECT * FROM `restaurant_accounts` WHERE email = ? AND `password` = ?', [email, password], function(error, results, fields) {
-	console.log(results);
-	if (results.length > 0) {
-	req.flash('error_msg', 'This Email Has Been Registered!');
-	res.redirect('/dashboard/register');
-	return
-	}		
-
-	let restaurant = {
-		name : name,
-		email : email,
-		password : password
-	}
-	//succeed! registering to database!
-    db.query('INSERT INTO `restaurant_accounts` SET ?', restaurant, (err, result) => {
-    		 if(err){return err};
-		    console.log(result);
-		    req.session.loggedin = true
-			req.session.user = restaurant;
-		    req.flash('success_msg', 'Successfully Signed In');
-		    res.redirect('/dashboard');
-		    return
-    		});
-	})
-	};
+	if(errors.length == 0){
+  db.query('SELECT * FROM `restaurant_accounts` WHERE email = ?', [email],  function(error, results, fields) {
+    console.log(results);
+    if (results.length > 0) {
+      console.log("DUPLICATE FOUND!");
+      req.flash('error_msg', 'This Email Has Been Registered!');
+      res.redirect('/dashboard/register');
+      return
+    }
+    else{  
+    console.log("CREATING NOW!");
+    let restaurant = {
+      full_name : name,
+      email : email,
+      password : password
+    };
+    //succeed! registering to database!
+    db.query('INSERT INTO `restaurant_accounts` SET ?', restaurant, (err, results) => {
+          if (err)  throw err;
+          console.log("MASUK");
+          console.log(results);
+          req.session.loggedin = true
+          req.session.res_user = restaurant;
+          req.flash('success_msg', 'Successfully Signed In');
+          res.redirect('/dashboard');
+          return
+    }); 
+    }
+    })
+  };
 });
 
 router.get('/logout', function(req, res, next) {
@@ -90,34 +82,133 @@ router.get('/logout', function(req, res, next) {
   }
 });
 
-router.get('/api/products', async function(req, res) {
-	// The following statement can be removed after the first run (i.e. the database
-	// table has been created). It is a good idea to do this to help improve
-	// performance.
-	await knex.raw( "CREATE TABLE IF NOT EXISTS `products` (\
-	`product_id` int(10) NOT NULL auto_increment,\
-	`name` varchar(255),\
-	`restaurant_id` varchar(255),\
-	`price` numeric(9,2),\
-	`description` varchar(255),\
-	`status` varchar(255),\
-	`tags` varchar(255),\
-	PRIMARY KEY( `product_id` )\
-);" );
+router.post('/profile', (req,res) =>{
+  const {restaurantName, restaurantUsername} = req.body;
+  
+  let updateProfile = {
+    full_name : restaurantName,
+    res_username : restaurantUsername
+  }
 
-	let editor = new Editor(knex, 'products','product_id').fields(
-		new Field("name"),
-		new Field("restaurant_id"),
-		new Field("price"),
-		new Field("description"),
-		new Field("status"),
-		new Field("tags"),
-	);
-
-	await editor.process(req.body);
-	res.json(editor.data());
+  db.query('UPDATE `restaurant_accounts` SET ? WHERE `restaurant_id` = ?', [updateProfile,req.session.res_user.restaurant_id],  function(err, results, fields) {
+    if(err){throw err};
+    db.query('SELECT * FROM `restaurant_accounts` WHERE `restaurant_id` = ?', [req.session.res_user.restaurant_id], function(error, results, fields) {
+    console.log(results);
+    req.session.res_user = results[0];
+    res.redirect('/dashboard/manage');
+    })
+  });
 });
 
+router.get('/api/products', async function(req, res) {
+ // Get the query string paramters sent by Datatable
+  const requestQuery = req.query;
+  /**
+   * This is array of objects which maps 
+   * the database columns with the Datatables columns
+   * db - represents the exact name of the column in your table
+   * dt - represents the order in which you want to display your fetched values
+   * If your want any column to display in your datatable then
+   * you have to put an enrty in the array , in the specified format
+   * carefully setup this structure to avoid any errors
+   */
+  let columnsMap = [
+    {
+      db: "name",
+      dt: 0
+    },
+    {
+      db: "restaurant_id",
+      dt: 1
+    },
+    {
+      db: "price",
+      dt: 2
+    },
+    {
+      db: "description",
+      dt: 3
+    },
+    {
+      db: "status",
+      dt: 4
+    },
+    {
+      db: "tags",
+      dt: 5
+    },
+    {
+      db: "product_id",
+      dt: 6
+    }
+  ];
 
+  // our database table name
+  // const tableName = "res_users"
+  // Custome SQL query
+  const query = 'SELECT * FROM products WHERE restaurant_id='+req.session.res_user.restaurant_id;
+  // NodeTable requires table's primary key to work properly
+  const primaryKey = "product_id"
+  
+  const nodeTable = new NodeTable(requestQuery, db, query, primaryKey, columnsMap);
+ 
+  nodeTable.output((err, data)=>{
+    if (err) {throw err }
+    // Directly send this data as output to Datatable
+    res.send(data)
+  })
+});
+
+router.post('/update', (req,res) =>{
+  const {menuName, menuPrice, menuDescription, menuTags,menuStatus,menuID} = req.body;
+  console.log(req.body)
+  let status = 0;
+  if(menuStatus == 1){
+    status = 1;
+  }
+  let updateMenu = {
+    name : menuName,
+    price : menuPrice,
+    description : menuDescription,
+    tags : menuTags,
+    status : status
+  }
+
+  db.query('UPDATE `products` SET ? WHERE `product_id` = ?', [updateMenu,menuID],  function(error, results, fields) {
+    console.log(results);
+    res.redirect('/dashboard/manage');
+  });
+});
+
+router.post('/insert', (req,res) =>{
+  const {menuName, menuPrice, menuDescription, menuTags,menuStatus} = req.body;
+  console.log(req.body)
+  let status = 0;
+  if(menuStatus == 1){
+    status = 1;
+  }
+  let insertMenu = {
+    name : menuName,
+    restaurant_id: req.session.res_user.restaurant_id,
+    price : menuPrice,
+    description : menuDescription,
+    tags : menuTags,
+    status : status
+  }
+
+  db.query('INSERT INTO `products` SET ? ', [insertMenu],  function(error, results, fields) {
+    console.log(results);
+    res.redirect('/dashboard/manage');
+  });
+});
+
+router.post('/delete', (req,res) =>{
+  const {menuID} = req.body;
+  console.log("deleting product_id :" + menuID);
+  db.query('DELETE FROM `products` WHERE product_id = ? ', [menuID],  function(error, results, fields) {
+    if(error){throw error};
+    res.redirect('/dashboard/manage');
+  });
+});
 
 module.exports = router;
