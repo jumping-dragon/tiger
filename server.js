@@ -31,7 +31,9 @@ app.set('views', ['./views','./admin_views']);
 
 //STATICS
 app.use(express.static('public'))
+app.use(express.static('temp'))
 app.use('/dashboard', express.static('admin_public'))
+app.use('/dashboard', express.static('temp'))
 
 // Express body parser
 app.use(express.urlencoded({ extended: true }));

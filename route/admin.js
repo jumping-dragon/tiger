@@ -3,6 +3,33 @@ const router = express.Router();
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./db')
 const NodeTable = require("./nodetables");
+const multer = require('multer');
+const path = require('path');
+const crypto = require('crypto');
+
+// Set The Storage Engine
+const storage = multer.diskStorage({
+  destination: './temp/uploads/',
+  filename: function(req, file, cb){
+    crypto.pseudoRandomBytes(16, function(err, raw) {
+      if (err) return cb(err);
+      let filename = raw.toString('hex')+ '-' + Date.now() + path.extname(file.originalname);
+      cb(null,filename);
+    });
+  }
+});
+
+// Init Upload
+const upload = multer({
+  storage: storage,
+  limits:{fileSize: 1000000}
+}).single('avatar');
+
+// Init Upload
+const product_upload = multer({
+  storage: storage,
+  limits:{fileSize: 1000000}
+}).single('product_picture');
 
 router.post('/login', (req,res) =>{
 	const {email, password} = req.body;
@@ -87,7 +114,7 @@ router.post('/profile', (req,res) =>{
   
   let updateProfile = {
     full_name : restaurantName,
-    res_username : restaurantUsername
+    username : restaurantUsername
   }
 
   db.query('UPDATE `restaurant_accounts` SET ? WHERE `restaurant_id` = ?', [updateProfile,req.session.res_user.restaurant_id],  function(err, results, fields) {
@@ -140,6 +167,10 @@ router.get('/api/products', async function(req, res) {
     {
       db: "product_id",
       dt: 6
+    },
+    {
+      db: "picture",
+      dt: 7
     }
   ];
 
@@ -160,24 +191,29 @@ router.get('/api/products', async function(req, res) {
 });
 
 router.post('/update', (req,res) =>{
-  const {menuName, menuPrice, menuDescription, menuTags,menuStatus,menuID} = req.body;
-  console.log(req.body)
-  let status = 0;
-  if(menuStatus == 1){
-    status = 1;
-  }
-  let updateMenu = {
-    name : menuName,
-    price : menuPrice,
-    description : menuDescription,
-    tags : menuTags,
-    status : status
-  }
+  product_upload(req, res, (err) => {
+      const {menuName, menuPrice, menuDescription, menuTags,menuStatus,menuID} = req.body;
+      console.log(req.body);
+      let status = 0;
+      if(menuStatus == 1){
+        status = 1;
+      }
 
-  db.query('UPDATE `products` SET ? WHERE `product_id` = ?', [updateMenu,menuID],  function(error, results, fields) {
-    console.log(results);
-    res.redirect('/dashboard/manage');
-  });
+      console.log(req.file);
+      let updateMenu = {
+        name : menuName,
+        price : menuPrice,
+        description : menuDescription,
+        tags : menuTags,
+        status : status,
+        picture : req.file.filename
+      }
+
+      db.query('UPDATE `products` SET ? WHERE `product_id` = ?', [updateMenu,menuID],  function(error, results, fields) {
+        console.log(results);
+        res.redirect('/dashboard/manage');
+      });
+  })
 });
 
 router.post('/insert', (req,res) =>{
@@ -211,4 +247,11 @@ router.post('/delete', (req,res) =>{
   });
 });
 
+router.post('/api/upload',(req,res) =>{
+  upload(req, res, (err) => {
+    if(err){throw err};
+    res.json(req.file.filename);
+    // res.redirect('/dashboard/manage');
+  })
+})
 module.exports = router;

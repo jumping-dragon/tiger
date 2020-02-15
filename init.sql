@@ -37,6 +37,7 @@
     `description` varchar(500),
     `status` BOOLEAN NOT NULL,
     `tags` varchar(50),
+    `picture` varchar(50),
     PRIMARY KEY (`product_id`)
   )ENGINE=InnoDB DEFAULT CHARSET=utf8;
   INSERT INTO `products` (`name`, `restaurant_id`,`price`,`description`,`tags`,`status`) 

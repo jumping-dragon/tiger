@@ -33,6 +33,21 @@
     margin-left: -2rem;
     padding-bottom: 0.1rem;
   }
+  #update-image-change{
+   width:100%; 
+   margin-top:5px;
+   margin-bottom: 30px;
+   opacity:100%;
+   -webkit-transition: opacity 0.5s ease-out;
+   -moz-transition: opacity 0.5s ease-out;
+   -o-transition: opacity 0.5s ease-out;
+   transition: opacity 0.5s ease-out;
+   background-color:white;
+  }
+  #update-image-change:hover{
+   opacity:50%;
+   cursor:pointer;
+  }
 </style>
 
 <div class="content-wrapper">
@@ -58,7 +73,7 @@
             <!-- Restaurant Full Name -->
             <div class="form-group">
               <label for="inlineFormInputName2">Restaurant Full Name</label>
-              <input type="text" class="input-group mb-2 mr-sm-2 form-control" id="restaurantName" placeholder="Insert Restaurant Name" name="restaurantName">
+              <input type="text" class="input-group mb-2 mr-sm-2 form-control" id="restaurantFullName" placeholder="Insert Restaurant Name" name="restaurantName">
             </div>
 
             <div class="form-group">
@@ -79,16 +94,18 @@
     <div class="col-md-6 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <form class="forms-sample">
 
+          <form action="/admin/api/upload" method="post" enctype="multipart/form-data" id="profile-picture">
             <div class="row">
               <div class="col text-center">
-              <label for="exampleInputEmail2"><img src="images/faces/face1.jpg" alt="profile" class="edit-profile"/></label>
-              <input type="file" class="custom-file-input" id="exampleInputEmail1" style="display:none">
+              <label><img src="images/faces/face1.jpg" alt="profile" class="edit-profile" id="upload-image"/></label>
+              <input type="file" class="custom-file-input" id="profile_upload" name="avatar" style="display:none">
               <p>Click to Upload a new Avatar</p>
               </div>
+                          <button type="submit" class="btn btn-primary mr-2">Submit</button>
             </div>
-
+          </form>
+          <form class="forms-sample">
             <hr>
             <div class="form-group row">
               <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Email</label>
@@ -167,7 +184,11 @@
         </div>
         <div class="modal-body mx-2">
           <div class="form">
-                <form action="/admin/update" method="post" role="form">
+                <form action="/admin/update" method="post" role="form" enctype="multipart/form-data" >
+                  <div class="form-group">
+                     <img src="first.jpg" alt="profile" id="update-image-change"/>
+                     <input type="file" class="custom-file-input" id="product_picture" name="product_picture" style="display:none">
+                  </div>
                   <div class="form-group" style="display: none">
                     <label for="menuID">Menu ID</label>
                     <input type="text" id="menuID" name="menuID">
@@ -306,7 +327,7 @@
               }
             },
             {
-                "targets": [ 1 , 6 ],
+                "targets": [ 1 , 6 , 7],
                 "visible": false,
                 "searchable": false
             }
@@ -337,15 +358,44 @@
           $("#menuStatus").prop("checked", false);
           }
           $("#menuTags").html(data[5]);
+          $("#update-image-change").attr("src","uploads/"+data[7]);
         } );
+
+          $("#update-image-change").on("click", function(){
+            $('#product_picture').trigger("click");
+          })
+
+          function readURL(input) {
+            if (input.files && input.files[0]) {
+              var reader = new FileReader();
+
+              reader.onload = function(e) {
+                $('#update-image-change').attr('src', e.target.result);
+              }
+
+              reader.readAsDataURL(input.files[0]);
+            }
+          }
+
+          $("#product_picture").change(function() {
+            readURL(this);
+          });
     </script>
     <!--forms script-->
     <script>
       if(<%- JSON.stringify(user) %>){
         var user = <%- JSON.stringify(user) %> ;
-        console.log(user)
-        $('#restaurantName').attr('value',user.full_name)
-        $('#restaurantUsername').attr('value',user.username)
+        console.log(user);
+        $('#restaurantFullName').attr('value',user.full_name);
+        $('#restaurantUsername').attr('value',user.username);
       }
-         
+    </script>
+    <script>
+      $("#upload-image").on("click", function() {
+        $("#profile_upload").trigger("click");
+      });
+      $("#profile_upload").change(function() {
+        $("#profile-picture").submit();
+      });
+
     </script>
