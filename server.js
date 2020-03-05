@@ -58,6 +58,13 @@ app.use(function (req, res, next) {
 app.use(flash());
 app.use(back());
  
+
+
+let server = app.listen(port, () => {
+	console.log(`Server started on port : ${port}!`);
+});
+
+ 
 // ROUTES
 app.use('/', require('./route/pages.js'));
 app.use('/users', require('./route/users.js').route);
@@ -92,9 +99,5 @@ app.get('/email_api', (req,res) =>{
 });
 
 
-
-let server = app.listen(port, () => {
-	console.log(`Server started on port : ${port}!`);
-});
 
 

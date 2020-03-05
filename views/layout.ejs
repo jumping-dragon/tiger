@@ -8,8 +8,8 @@
   <meta content="" name="description">
 
   <!-- Favicons -->
-  <link href="img/food.ico" rel="icon">
-  <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="/img/food.ico" rel="icon">
+  <link href="/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Open+Sans:300,300i,400,400i,700,700i" rel="stylesheet">
@@ -18,17 +18,17 @@
    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
   <!-- Bootstrap CSS File -->
-  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Libraries CSS Files -->
-  <link href="lib/animate/animate.min.css" rel="stylesheet">
-  <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="lib/ionicons/css/ionicons.min.css" rel="stylesheet">
-  <link href="lib/magnific-popup/magnific-popup.css" rel="stylesheet">
-  <link href="lib/growl-notification/colored-theme.min.css" rel="stylesheet">
+  <link href="/lib/animate/animate.min.css" rel="stylesheet">
+  <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="/lib/magnific-popup/magnific-popup.css" rel="stylesheet">
+  <link href="/lib/growl-notification/colored-theme.min.css" rel="stylesheet">
 
 
-  <link href="css/nav.css" rel="stylesheet">
+  <link href="/css/nav.css" rel="stylesheet">
   <!-- =======================================================
     Theme Name: Avilon
     Theme URL: https://bootstrapmade.com/avilon-bootstrap-landing-page-template/
@@ -48,7 +48,7 @@
       <div id="logo" class="pull-left">
         <!--<h1><a href="#intro" class="scrollto">Avilon</a></h1> -->
         <!-- Uncomment below if you prefer to use an image logo -->
-        <a href="/"><img src="img/logo.png" width="150px" title=""></a>
+        <a href="/"><img src="/img/logo.png" width="150px" title=""></a>
       </div>
       <nav id="nav-menu-container">
         <ul class="nav-menu">
@@ -85,7 +85,7 @@
               <div id="errormessage"></div>
               <form action="/users/login" method="post" role="form" class="loginForm">
                   <div class="form-group">
-                     <input type="email" class="form-control" name="email" id="email" placeholder="Enter Email" data-rule="email" data-msg="Email not registered" />
+                     <input type="email" class="form-control" name="email" id="login_email" placeholder="Enter Email" data-rule="email" data-msg="Email not registered" />
                     <div class="validation"></div>
                   </div>
                   <div class="form-group input-group">
@@ -122,7 +122,7 @@
               <div id="errormessage"></div>
               <form action="/users/forgot" method="post" role="form" class="loginForm">
                   <div class="form-group">
-                     <input type="email" class="form-control" name="email" id="email" placeholder="Enter Email of your account" data-rule="email" data-msg="Email not registered" />
+                     <input type="email" class="form-control" name="email" id="forgot_email" placeholder="Enter Email of your account" data-rule="email" data-msg="Email not registered" />
                     <div class="validation"></div>
                   </div>
                 <div class="text-center"><button class="form-control modal-login-btn" title="Send Login">Get My Password</button></div>
@@ -157,7 +157,7 @@
                      type="string"
                      class="form-control" 
                      name="name" 
-                     id="name" 
+                     id="signup_name" 
                      placeholder="Enter Full Name" 
                      data-rule="name" 
                      data-msg="Name not registered" />
@@ -168,7 +168,7 @@
                      type="email"
                      class="form-control" 
                      name="email" 
-                     id="email" 
+                     id="signup_email" 
                      placeholder="Enter Email" 
                      data-rule="email" 
                      data-msg="Email Registered" />
@@ -179,7 +179,7 @@
                    type="Password" 
                    name="password" 
                    class="form-control" 
-                   id="pass" 
+                   id="signup_password" 
                    placeholder="Enter Password" 
                    data-rule="minlen:4" 
                    data-msg="Password Invalid" />
@@ -190,7 +190,7 @@
                      type="password" 
                      class="form-control" 
                      name="password2" 
-                     id="pass" 
+                     id="signup_password2" 
                      placeholder="Confirm Password" 
                      data-rule="minlen:4" 
                      data-msg="Password not the same" />
@@ -201,7 +201,7 @@
                      type="string" 
                      class="form-control" 
                      name="student_id" 
-                     id="email" 
+                     id="signup_student_id" 
                      placeholder="Enter Student/Worker ID" 
                      data-rule="student_id" 
                      data-msg="Student ID not detected" />
@@ -212,7 +212,7 @@
                      type="number" 
                      class="form-control" 
                      name="phone_number" 
-                     id="email" 
+                     id="signup_phone_number" 
                      placeholder="Enter Phone Number" 
                      data-rule="email" 
                      data-msg="Phone number Invalid" />
@@ -264,7 +264,7 @@ Interested? Let's start our partnership today!</p>
 
           <div class="col-lg-4 col-md-4">
             <div class="contact-about">
-              <a href="/"><img src="img/logoorange.png" width="250px" title=""></a>
+              <a href="/"><img src="/img/logoorange.png" width="250px" title=""></a>
               <p>We are on the mission to give the ability of easy, reliable, and fast Online To-Go Booking for your favourite To-Go's</p>
               <div class="social-links">
                 <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
@@ -300,11 +300,11 @@ Interested? Let's start our partnership today!</p>
               <form action="" method="post" role="form" class="contactForm">
                 <div class="form-row">
                   <div class="form-group col-lg-6">
-                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                    <input type="text" name="name" class="form-control" id="feedback_name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
                     <div class="validation"></div>
                   </div>
                   <div class="form-group col-lg-6">
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                    <input type="email" class="form-control" name="email" id="feedback_email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
                     <div class="validation"></div>
                   </div>
                 </div>
@@ -353,21 +353,21 @@ Interested? Let's start our partnership today!</p>
   <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
   <!-- JavaScript Libraries -->
-  <script src="lib/jquery/jquery.min.js"></script>
-  <script src="lib/jquery/jquery-migrate.min.js"></script>
-  <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="lib/easing/easing.min.js"></script>
-  <script src="lib/wow/wow.min.js"></script>
-  <script src="lib/superfish/hoverIntent.js"></script>
-  <script src="lib/superfish/superfish.min.js"></script>
-  <script src="lib/magnific-popup/magnific-popup.min.js"></script>
+  <script src="/lib/jquery/jquery.min.js"></script>
+  <script src="/lib/jquery/jquery-migrate.min.js"></script>
+  <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/lib/easing/easing.min.js"></script>
+  <script src="/lib/wow/wow.min.js"></script>
+  <script src="/lib/superfish/hoverIntent.js"></script>
+  <script src="/lib/superfish/superfish.min.js"></script>
+  <script src="/lib/magnific-popup/magnific-popup.min.js"></script>
 
   <!-- Contact Form JavaScript File -->
-  <script src="contactform/contactform.js"></script>
-  <script src="lib/growl-notification/growl-notification.min.js"></script>
+  <script src="/contactform/contactform.js"></script>
+  <script src="/lib/growl-notification/growl-notification.min.js"></script>
 
   <!-- Template Main Javascript File -->
-  <script src="js/main.js"></script>
+  <script src="/js/main.js"></script>
   <script>
      
       function capitalizeFirstLetter(string) {
@@ -375,7 +375,7 @@ Interested? Let's start our partnership today!</p>
       } 
       
       if(<%- JSON.stringify(success_msg) %> != ''){
-      var messages = <%- JSON.stringify(success_msg) %> ;
+      let messages = <%- JSON.stringify(success_msg) %> ;
        GrowlNotification.notify({
         title: 'Well Done!',
         description: messages,
@@ -386,7 +386,7 @@ Interested? Let's start our partnership today!</p>
       };
 
       if(<%- JSON.stringify(error_msg) %> != ''){
-      var messages = <%- JSON.stringify(error_msg) %> ;
+      let messages = <%- JSON.stringify(error_msg) %> ;
        GrowlNotification.notify({
         title: 'Sorry',
         description: messages,
@@ -394,11 +394,18 @@ Interested? Let's start our partnership today!</p>
         position: 'bottom-right',
         closeTimeout: 2000
         });
+
+      if(messages == 'Please Login First to order'){
+        $('#loginModal').modal({
+        show: true
+        }); 
+      }
+
       };
 
       if(<%- JSON.stringify(user) %>){
-      var user = <%- JSON.stringify(user) %> ;
-      var dropDowns = '<ul>\
+      let user = <%- JSON.stringify(user) %> ;
+      let dropDowns = '<ul>\
       <li id="btn-logged-in"><a href="/profile#history" class="btn-logged-in">My Orders History</a></li>\
       <li id="btn-logged-in"><a href="/users/logout" class="btn-logged-in">Logout</a></li>\
       </ul>\

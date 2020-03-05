@@ -108,12 +108,12 @@ router.get('/logout', function(req, res, next) {
 });
 
 router.post('/order', (req,res) =>{
-  
-      const {restaurant_id, menuID, orderQuantity} = req.body;
+  	if(req.session.user){
+    const {restaurantID, menuID, orderQuantity} = req.body;
       
       let insertMenu = {
-        restaurant_id: req.session.res_user.restaurant_id,
-        user_id : customerID,
+        restaurant_id: restaurantID,
+        user_id : req.session.user.user_id,
         product_id : menuID,
         quantity : orderQuantity,
         completed : false
@@ -122,9 +122,14 @@ router.post('/order', (req,res) =>{
       console.log(insertMenu)
       db.query('INSERT INTO `orders` SET ? ', [insertMenu],  function(error, results, fields) {
         console.log(results);
-        res.redirect('/dashboard/');
+        res.redirect('/');
       });
-  
+    }
+    else{
+    req.flash('error_msg', 'Please Login First to order');
+    res.redirect(req.prevPath);
+    }
+    
 });
 
 var requ = { forgot_user_name : "",forgot_user_email : "",forgot_user_password : "" };
