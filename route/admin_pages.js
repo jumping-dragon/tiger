@@ -4,15 +4,15 @@ const expressLayouts = require('express-ejs-layouts');
 const db = require('./db')
 
 router.get('/', (req,res) =>{
-    // if(req.session.res_user){
+    if(req.session.res_user){
     res.render('body',{
       user : req.session.res_user,
       layout: 'admin_layout'
     })
-    // }
-    // else{
-    // res.redirect('/dashboard/login')
-    // }
+    }
+    else{
+    res.redirect('/dashboard/login')
+    }
 });
 
 router.get('/analytics', (req,res) =>{

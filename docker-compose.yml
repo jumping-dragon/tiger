@@ -31,6 +31,4 @@ services:
     volumes:
       - .:/usr/src/services
     working_dir: /usr/src/services
-    command: npm init -y
-    command: npm install
     command: npm run start

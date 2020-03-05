@@ -107,6 +107,26 @@ router.get('/logout', function(req, res, next) {
   }
 });
 
+router.post('/order', (req,res) =>{
+  
+      const {restaurant_id, menuID, orderQuantity} = req.body;
+      
+      let insertMenu = {
+        restaurant_id: req.session.res_user.restaurant_id,
+        user_id : customerID,
+        product_id : menuID,
+        quantity : orderQuantity,
+        completed : false
+      }
+
+      console.log(insertMenu)
+      db.query('INSERT INTO `orders` SET ? ', [insertMenu],  function(error, results, fields) {
+        console.log(results);
+        res.redirect('/dashboard/');
+      });
+  
+});
+
 var requ = { forgot_user_name : "",forgot_user_email : "",forgot_user_password : "" };
 module.exports.route = router;
 module.exports.api = requ;

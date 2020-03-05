@@ -23,29 +23,30 @@
     `username` varchar(50),
     `email` varchar(100) NOT NULL,
     `password` varchar(255) NOT NULL,
+    `picture` varchar(100),
     PRIMARY KEY (`restaurant_id`)
   )ENGINE=InnoDB DEFAULT CHARSET=utf8;
-  INSERT INTO `restaurant_accounts` (`full_name`,`username`, `email`,`password`) 
-  VALUES ('first restaurant', 'first username' , 'first@resto.com', 'first-pass');
+  INSERT INTO `restaurant_accounts` (`full_name`,`username`, `email`,`password`,`picture`) 
+  VALUES ('first restaurant', 'first username' , 'first@resto.com', 'first-pass','blank_profile.jpg');
 
 -- Create products table
   CREATE TABLE IF NOT EXISTS `products`(
     `product_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `name` varchar(100) NOT NULL,
+    `name` varchar(50) NOT NULL,
     `restaurant_id` varchar(50) NOT NULL,
     `price` decimal(10,2) NOT NULL,
     `description` varchar(500),
     `status` BOOLEAN NOT NULL,
     `tags` varchar(50),
-    `picture` varchar(50),
+    `picture` varchar(100),
     PRIMARY KEY (`product_id`)
   )ENGINE=InnoDB DEFAULT CHARSET=utf8;
-  INSERT INTO `products` (`name`, `restaurant_id`,`price`,`description`,`tags`,`status`) 
-  VALUES ('first product', '1', 352,'this is the first product','#first', 0);
-  INSERT INTO `products` (`name`, `restaurant_id`,`price`,`description`,`tags`,`status`) 
-  VALUES ('second product', '2', 452,'this is the second product','#second', 0);
-  INSERT INTO `products` (`name`, `restaurant_id`,`price`,`description`,`tags`,`status`) 
-  VALUES ('third product', '3', 552,'this is the third product','#third', 0);
+  INSERT INTO `products` (`name`, `restaurant_id`,`price`,`description`,`tags`,`status`,`picture`) 
+  VALUES ('first product', '1', 352,'this is the first product','#first', 0,'blank_product.png');
+  INSERT INTO `products` (`name`, `restaurant_id`,`price`,`description`,`tags`,`status`,`picture`) 
+  VALUES ('second product', '2', 452,'this is the second product','#second', 0,'blank_product.png');
+  INSERT INTO `products` (`name`, `restaurant_id`,`price`,`description`,`tags`,`status`,`picture`) 
+  VALUES ('third product', '3', 552,'this is the third product','#third', 0,'blank_product.png');
 
 -- Create orders table
   CREATE TABLE IF NOT EXISTS `orders` (

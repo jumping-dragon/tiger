@@ -15,22 +15,6 @@ DB INIT
 2. Go to phpmyadmin and login
 3. Click on SQL tab, copy and paste init.sql to the blank space
 4. Click on go
-
+5. All Time variable stored in database are in Standard UTC Timezone.
 
 --------------------------------------------------------------------------------
-
-1/23/2020 --> Currently
-1. Redirecting every admin pages to login if not authenticated
-2. All pages are still copy of dashboard
-3. "Manage" admin page already finished
-4. Current database schema Finished with exported png on project files
-
----> QUESTIONS
-1. Admin pages functionality
-STOCKS MANAGEMENT???
-ACCOUNTING MANAGEMENT???
-
-Because functionality determines what data is needed for the Admin Database schema
-- suggested:
-1. Operating time:
-2. Business License Number:

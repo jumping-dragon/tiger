@@ -109,6 +109,106 @@ router.get('/logout', function(req, res, next) {
   }
 });
 
+router.get('/api/orders', async function(req, res) {
+ // Get the query string paramters sent by Datatable
+  const requestQuery = req.query;
+  /**
+   * This is array of objects which maps 
+   * the database columns with the Datatables columns
+   * db - represents the exact name of the column in your table
+   * dt - represents the order in which you want to display your fetched values
+   * If your want any column to display in your datatable then
+   * you have to put an enrty in the array , in the specified format
+   * carefully setup this structure to avoid any errors
+   */
+  let columnsMap = [
+    {
+      db: "order_id",
+      dt: 0
+    },
+    {
+      db: "name",
+      dt: 1
+    },
+    {
+      db: "quantity",
+      dt: 2
+    },
+    {
+      db: "product_id",
+      dt: 3
+    },
+    {
+      db: "product_name",
+      dt: 4
+    },
+    {
+      db: "timestamp",
+      dt: 5
+    },
+    {
+      db: "completed",
+      dt: 6
+    },
+    {
+      db: "price",
+      dt: 7
+    }
+  ];
+
+  // our database table name
+  // const tableName = "res_users"
+  // Custome SQL query
+
+  const query = 'SELECT order_id,u.name,timestamp,o.product_id,quantity,completed,p.name AS product_name,p.price \
+   FROM orders o \
+   INNER JOIN user_accounts u \
+   ON o.`user_id` = u.`user_id` \
+   INNER JOIN products p\
+   ON o.`product_id` = p.`product_id` \
+   WHERE o.restaurant_id='+req.session.res_user.restaurant_id;
+  // NodeTable requires table's primary key to work properly
+  const primaryKey = "order_id"
+  
+  const nodeTable = new NodeTable(requestQuery, db, query, primaryKey, columnsMap);
+ 
+  nodeTable.output((err, data)=>{
+    if (err) {throw err }
+    // Directly send this data as output to Datatable
+    res.send(data)
+  })
+});
+
+router.post('/order', (req,res) =>{
+  
+      const {customerID, menuID, orderQuantity} = req.body;
+      
+
+      let insertMenu = {
+        restaurant_id: req.session.res_user.restaurant_id,
+        user_id : customerID,
+        product_id : menuID,
+        quantity : orderQuantity,
+        completed : false
+      }
+
+      console.log(insertMenu)
+      db.query('INSERT INTO `orders` SET ? ', [insertMenu],  function(error, results, fields) {
+        console.log(results);
+        res.redirect('/dashboard/');
+      });
+  
+});
+
+router.post('/receipt', (req,res) =>{
+  const {orderID} = req.body;
+  console.log("deleting order_id :" + orderID);
+  db.query('DELETE FROM `orders` WHERE order_id = ? ', [orderID],  function(error, results, fields) {
+    if(error){throw error};
+    res.redirect('/dashboard/');
+  });
+});
+
 router.post('/profile', (req,res) =>{
   const {restaurantName, restaurantUsername} = req.body;
   
@@ -193,48 +293,61 @@ router.get('/api/products', async function(req, res) {
 router.post('/update', (req,res) =>{
   product_upload(req, res, (err) => {
       const {menuName, menuPrice, menuDescription, menuTags,menuStatus,menuID} = req.body;
-      console.log(req.body);
       let status = 0;
       if(menuStatus == 1){
         status = 1;
       }
 
-      console.log(req.file);
       let updateMenu = {
         name : menuName,
         price : menuPrice,
         description : menuDescription,
         tags : menuTags,
-        status : status,
-        picture : req.file.filename
+        status : status
       }
 
+      if(req.file !== undefined){
+        updateMenu.picture = req.file.filename
+      }
+
+      console.log(updateMenu);
       db.query('UPDATE `products` SET ? WHERE `product_id` = ?', [updateMenu,menuID],  function(error, results, fields) {
+        if (error) throw error;
         console.log(results);
         res.redirect('/dashboard/manage');
       });
+      
   })
 });
 
 router.post('/insert', (req,res) =>{
-  const {menuName, menuPrice, menuDescription, menuTags,menuStatus} = req.body;
-  console.log(req.body)
-  let status = 0;
-  if(menuStatus == 1){
-    status = 1;
-  }
-  let insertMenu = {
-    name : menuName,
-    restaurant_id: req.session.res_user.restaurant_id,
-    price : menuPrice,
-    description : menuDescription,
-    tags : menuTags,
-    status : status
-  }
+  product_upload(req, res, (err) => {
+      const {menuName, menuPrice, menuDescription, menuTags,menuStatus} = req.body;
+      let status = 0;
+      let picture_name = "blank_product.png"
+      if(menuStatus == 1){
+        status = 1;
+      }
 
-  db.query('INSERT INTO `products` SET ? ', [insertMenu],  function(error, results, fields) {
-    console.log(results);
-    res.redirect('/dashboard/manage');
+      if(req.file !== undefined){
+        picture_name = req.file.filename
+      }
+
+      let insertMenu = {
+        name : menuName,
+        restaurant_id: req.session.res_user.restaurant_id,
+        price : menuPrice,
+        description : menuDescription,
+        tags : menuTags,
+        status : status,
+        picture : picture_name
+      }
+
+      console.log(insertMenu)
+      db.query('INSERT INTO `products` SET ? ', [insertMenu],  function(error, results, fields) {
+        console.log(results);
+        res.redirect('/dashboard/manage');
+      });
   });
 });
 
@@ -247,11 +360,24 @@ router.post('/delete', (req,res) =>{
   });
 });
 
-router.post('/api/upload',(req,res) =>{
+router.post('/security',(req,res) =>{
   upload(req, res, (err) => {
     if(err){throw err};
-    res.json(req.file.filename);
-    // res.redirect('/dashboard/manage');
+    const {restaurantEmail} = req.body;
+
+    let updateProfile = {
+    email : restaurantEmail,
+    picture : req.file.filename
+    }
+
+  db.query('UPDATE `restaurant_accounts` SET ? WHERE `restaurant_id` = ?', [updateProfile,req.session.res_user.restaurant_id],  function(err, results, fields) {
+    if(err){throw err};
+    db.query('SELECT * FROM `restaurant_accounts` WHERE `restaurant_id` = ?', [req.session.res_user.restaurant_id], function(error, results, fields) {
+    console.log(results);
+    req.session.res_user = results[0];
+    res.redirect('/dashboard/manage');
+    })
+  });
   })
 })
 module.exports = router;

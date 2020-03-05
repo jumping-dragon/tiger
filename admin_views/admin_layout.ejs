@@ -149,7 +149,7 @@
           </li>
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="images/faces/face1.jpg" alt="profile"/>
+              <img src="images/faces/face1.jpg" alt="profile" id="restaurantAvatar"/>
               <span class="nav-profile-name" id="restaurantName">First Restaurant</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
@@ -236,9 +236,9 @@
   <script src="js/template.js"></script>
   <script>
     if(<%- JSON.stringify(user) %>){
-      console.log(user);
       var user = <%- JSON.stringify(user) %> ;
-      $('#restaurantName').html(user.full_name)
+      $('#restaurantName').html(user.full_name);
+      $("#restaurantAvatar").attr("src","uploads/"+user.picture);
     }
   </script>
   <!-- endinject -->

@@ -48,6 +48,21 @@
    opacity:50%;
    cursor:pointer;
   }
+  #insert-image-change{
+   width:100%; 
+   margin-top:5px;
+   margin-bottom: 30px;
+   opacity:100%;
+   -webkit-transition: opacity 0.5s ease-out;
+   -moz-transition: opacity 0.5s ease-out;
+   -o-transition: opacity 0.5s ease-out;
+   transition: opacity 0.5s ease-out;
+   background-color:white;
+  }
+  #insert-image-change:hover{
+   opacity:50%;
+   cursor:pointer;
+  }
 </style>
 
 <div class="content-wrapper">
@@ -95,30 +110,27 @@
       <div class="card">
         <div class="card-body">
 
-          <form action="/admin/api/upload" method="post" enctype="multipart/form-data" id="profile-picture">
+          <form action="/admin/security" method="post" enctype="multipart/form-data" id="profile-picture">
             <div class="row">
               <div class="col text-center">
-              <label><img src="images/faces/face1.jpg" alt="profile" class="edit-profile" id="upload-image"/></label>
+              <label><img src="uploads/blank_profile.jpg" alt="profile" class="edit-profile" id="upload-image"/></label>
               <input type="file" class="custom-file-input" id="profile_upload" name="avatar" style="display:none">
               <p>Click to Upload a new Avatar</p>
               </div>
-                          <button type="submit" class="btn btn-primary mr-2">Submit</button>
             </div>
-          </form>
-          <form class="forms-sample">
             <hr>
             <div class="form-group row">
-              <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Email</label>
+              <label class="col-sm-3 col-form-label">Email</label>
               <div class="col-sm-9">
-                <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email">
+                <input type="email" class="form-control" id="restaurantEmail" placeholder="Email" name="restaurantEmail" required>
               </div>
             </div>
-            <div class="form-group row">
+            <!-- <div class="form-group row">
               <label for="exampleInputMobile" class="col-sm-3 col-form-label">Mobile</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control" id="exampleInputMobile" placeholder="Mobile number">
+                <input type="text" class="form-control" id="restaurantMobile" placeholder="Mobile number">
               </div>
-            </div>
+            </div> -->
             <hr>
             <div class="form-group row"   style="color:grey !important">
               <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Change Password</label>
@@ -186,7 +198,7 @@
           <div class="form">
                 <form action="/admin/update" method="post" role="form" enctype="multipart/form-data" >
                   <div class="form-group">
-                     <img src="first.jpg" alt="profile" id="update-image-change"/>
+                     <img src="/uploads/blank_product.png" alt="profile" id="update-image-change"/>
                      <input type="file" class="custom-file-input" id="product_picture" name="product_picture" style="display:none">
                   </div>
                   <div class="form-group" style="display: none">
@@ -195,11 +207,11 @@
                   </div>
                   <div class="form-group">
                     <label for="menuName">Menu Name</label>
-                    <input type="text" class="form-control" id="menuName" placeholder="Edit Menu Name" name="menuName">
+                    <input type="text" class="form-control" id="menuName" placeholder="Edit Menu Name" name="menuName" required>
                   </div>
                   <div class="form-group">
                     <label for="menuPrice">Menu Price</label>
-                    <input type="number" class="form-control" id="menuPrice" placeholder="Edit Menu Price" name="menuPrice">
+                    <input type="number" class="form-control" id="menuPrice" placeholder="Edit Menu Price" name="menuPrice" required>
                   </div>
                   <div class="form-group">
                     <label for="menuDescription">Menu Description</label>
@@ -237,14 +249,18 @@
         </div>
         <div class="modal-body mx-2">
           <div class="form">
-                <form action="/admin/insert" method="post" role="form">
+                <form action="/admin/insert" method="post" role="form" enctype="multipart/form-data" >
+                  <div class="form-group">
+                     <img class="mx-auto" src="/uploads/blank_product.png" alt="profile" id="insert-image-change"/>
+                     <input type="file" class="custom-file-input" id="product_insert" name="product_picture" style="display:none">
+                  </div>
                   <div class="form-group">
                     <label for="menuName">Menu Name</label>
-                    <input type="text" class="form-control" placeholder="Edit Menu Name" name="menuName">
+                    <input type="text" class="form-control" placeholder="Edit Menu Name" name="menuName" required>
                   </div>
                   <div class="form-group">
                     <label for="menuPrice">Menu Price</label>
-                    <input type="number" class="form-control" placeholder="Edit Menu Price" name="menuPrice">
+                    <input type="number" class="form-control" placeholder="Edit Menu Price" name="menuPrice" required>
                   </div>
                   <div class="form-group">
                     <label for="menuDescription">Menu Description</label>
@@ -295,14 +311,6 @@
           processing: true,
           serverSide: true,
           ajax: "/admin/api/products",
-          buttons: [
-            {
-                text: 'My button',
-                action: function ( e, dt, node, config ) {
-                    alert( 'Button activated' );
-                }
-            }
-         ],
           "createdRow": function( row, data, dataIndex ) {
             for(var a = 0; a <= dataIndex ; a++){
               $(row).attr('id', 'menu'+ a);
@@ -343,7 +351,7 @@
           }
 
         });
-
+                  
         $('#latest-menu tbody').on('click', 'tr', function () {
           var data = latest_menu.row( this ).data();
           $("#orderModal").modal("show"); 
@@ -365,20 +373,26 @@
             $('#product_picture').trigger("click");
           })
 
-          function readURL(input) {
+          $("#insert-image-change").on("click", function(){
+            $('#product_insert').trigger("click");
+          })
+
+          function readURL(input,gogo) {
             if (input.files && input.files[0]) {
               var reader = new FileReader();
-
               reader.onload = function(e) {
-                $('#update-image-change').attr('src', e.target.result);
+                $(gogo).attr('src', e.target.result);
               }
-
               reader.readAsDataURL(input.files[0]);
             }
           }
 
           $("#product_picture").change(function() {
-            readURL(this);
+            readURL(this,"#update-image-change");
+          });
+
+          $("#product_insert").change(function() {
+            readURL(this,"#insert-image-change");
           });
     </script>
     <!--forms script-->
@@ -388,6 +402,8 @@
         console.log(user);
         $('#restaurantFullName').attr('value',user.full_name);
         $('#restaurantUsername').attr('value',user.username);
+        $('#restaurantEmail').attr('value',user.email);
+        $("#upload-image").attr("src","uploads/"+user.picture);
       }
     </script>
     <script>
@@ -395,7 +411,7 @@
         $("#profile_upload").trigger("click");
       });
       $("#profile_upload").change(function() {
-        $("#profile-picture").submit();
+        readURL(this,"#upload-image");
       });
 
     </script>
