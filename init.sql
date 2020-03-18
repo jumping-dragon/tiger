@@ -62,5 +62,18 @@
   INSERT INTO `orders` (`restaurant_id`,`user_id`,`product_id`,`quantity`,`completed`) 
   VALUES (1, 1 ,1,1,false);
 
-  SELECT * FROM orders o INNER JOIN products p ON o.`restaurant_id` = p.`restaurant_id`
+  SELECT * FROM orders o INNER JOIN products p ON o.`restaurant_id` = p.`restaurant_id`;
+
+-- Create chat message table
+  CREATE TABLE IF NOT EXISTS `messages` (
+    `message_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `restaurant_id` int(50) NOT NULL,
+    `user_id` int(50) NOT NULL,
+    `chat_id` int(50) NOT NULL,
+    `timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `messages` varchar(255) NOT NULL,
+    PRIMARY KEY (`message_id`)
+  )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  INSERT INTO `messages` (`restaurant_id`,`user_id`,`chat_id`,`messages`) 
+  VALUES (1, 1 ,1,'TESTING');
 

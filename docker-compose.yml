@@ -24,7 +24,7 @@ services:
  tigers:
     depends_on:
       - mysql-development
-    image: node:13
+    image: node:11
     restart: always
     ports:
       - '8090:8089'

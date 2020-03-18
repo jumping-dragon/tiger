@@ -5,6 +5,22 @@
 
 /* Nav Menu Essentials */
 
+#chat{
+  position:fixed;
+  width:60px;
+  height:60px;
+  right: 15px;
+  background: linear-gradient(45deg, #efcc63, #ea8901);
+  color:#fff;
+  border-radius:10px;
+  text-align:center;
+  box-shadow: 2px 2px 3px #999;
+}
+
+#chat:hover{
+  box-shadow: 5px 5px 5px #999;
+}
+
 .nav-menu,
 .nav-menu * {
   margin: 0;

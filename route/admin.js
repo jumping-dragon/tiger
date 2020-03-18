@@ -37,7 +37,7 @@ router.post('/login', (req,res) =>{
 	if (email && password) {
 		db.query('SELECT * FROM `restaurant_accounts` WHERE email = ? AND `password` = ?', [email, password], function(error, results, fields) {
 			console.log(results);
-			if (results.length > 0) {
+			if (results) {
 				req.session.loggedin = true;
 				req.session.res_user = results[0];
 				res.redirect('/dashboard');
