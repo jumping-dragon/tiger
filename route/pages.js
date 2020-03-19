@@ -51,11 +51,7 @@ router.get('/cart', (req,res) =>{
       });
     }
     else{
-    res.render('cart',{
-      user : false,
-      success_msg: req.flash('success_msg'),
-      error_msg: req.flash('error_msg')
-    });
+    res.redirect(req.prevPath);
     }
 });
 
