@@ -107,23 +107,61 @@ router.get('/logout', function(req, res, next) {
   }
 });
 
-router.post('/order', (req,res) =>{
+router.post('/cart_order', (req,res) =>{
   	if(req.session.user){
-    const {restaurantID, menuID, orderQuantity} = req.body;
+    const {restaurantID, menuID, orderQuantity,Comments} = req.body;
       
       let insertMenu = {
         restaurant_id: restaurantID,
         user_id : req.session.user.user_id,
         product_id : menuID,
         quantity : orderQuantity,
-        completed : false
+        comments : Comments
       }
 
       console.log(insertMenu)
-      db.query('INSERT INTO `orders` SET ? ', [insertMenu],  function(error, results, fields) {
+      db.query('INSERT INTO `user_cart` SET ? ', [insertMenu],  function(error, results, fields) {
         console.log(results);
-        res.redirect('/');
+        if (error) {console.log(error)};
+	    req.flash('success_msg', 'Successfully Added to Cart');
+        res.redirect(req.prevPath);
       });
+    }
+    else{
+    req.flash('error_msg', 'Please Login First to order');
+    res.redirect(req.prevPath);
+    }
+    
+});
+
+router.post('/order', (req,res) =>{
+  	if(req.session.user){
+    const {restaurantID,product,quantity,comments,cart_id} = req.body;
+
+    let insertMenu = [];
+
+    for(let a = 0; a < product.length;a++){
+	insertMenu[a] = [parseInt(restaurantID),req.session.user.user_id,parseInt(product[a]),parseInt(quantity[a]),comments[a],false]
+	}
+
+	console.log(insertMenu);
+	let sql = "INSERT INTO orders (restaurant_id, user_id, product_id,quantity,comments,completed) VALUES ?";
+
+    let delID = [];
+	for(let a = 0; a < cart_id.length;a++){
+	delID[a] = [parseInt(cart_id[a])];
+	}
+	console.log(delID);
+
+    db.query(sql, [insertMenu],  function(error, results, fields) {
+         if (error) {console.log(error)};
+    	 console.log(results);
+    	 db.query('DELETE FROM `user_cart` WHERE (cart_id) IN (?) ', [delID],  function(error, results, fields) {
+		    if(error){throw error};
+		    req.flash('success_msg', 'Successfully Placed Order');
+		    res.redirect(req.prevPath);
+		  });
+    });
     }
     else{
     req.flash('error_msg', 'Please Login First to order');

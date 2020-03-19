@@ -52,7 +52,7 @@ Recommended Section
       <div class="modal-body">
         <div class="form">
               <div id="errormessage"></div>
-              <form action="/users/order" method="post" role="form" class="orderForm">
+              <form action="/users/cart_order" method="post" role="form" class="orderForm">
                   <div class="form-group" style="display:none">
                     <label for="restaurantID">restaurantID</label>
                     <input type="text" id="restaurantID" name="restaurantID">
@@ -71,7 +71,7 @@ Recommended Section
                   <hr>
                   <div class="form-group">
                      <h5>Special instructions</h5>
-                     <textarea type="email" class="form-control" name="email" id="email" placeholder="You can write down here any special instructions" data-rule="order" data-msg="Order Invalid"></textarea>
+                     <textarea type="text" class="form-control" name="Comments" id="email" placeholder="You can write down here any special instructions" data-rule="order" data-msg="Order Invalid"></textarea>
                     <div class="validation"></div>
                   </div>
                   

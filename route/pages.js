@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('./db')
+const _ = require('lodash');
 
 router.get('/app', (req,res) =>{
     req.flash('success_msg', 'Hello');
@@ -35,15 +36,23 @@ router.get('/', (req,res) =>{
 
 router.get('/cart', (req,res) =>{
     if(req.session.user){
-      const query = 'SELECT * \
+      const query = 'SELECT c.cart_id,c.product_id,c.quantity,c.comments,p.name,p.price,r.full_name,p.picture,r.restaurant_id\
                      FROM user_cart c\
                      INNER JOIN products p \
                      ON c.`product_id` = p.`product_id` \
+                     INNER JOIN restaurant_accounts r\
+                     ON p.`restaurant_id` = r.`restaurant_id` \
                      WHERE c.`user_id`='+req.session.user.user_id;
 
       db.query(query, function(error, results, fields) {
+        let grouped =  _.groupBy(results, function(car) {
+                        return car.full_name;
+                      });
+        let zhenglihao = Object.keys(grouped).map(i => grouped[i])
+        console.log(zhenglihao);
+
         res.render('cart',{
-          cart_load : results,
+          cart_load : zhenglihao,
           user : req.session.user,
           success_msg: req.flash('success_msg'),
           error_msg: req.flash('error_msg') 
