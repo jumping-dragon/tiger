@@ -13,7 +13,7 @@
 	 transform: translateY(70px);
 	 transition: all 250ms ease-out;
 	 border-radius: 50%;
-	 opacity: 0;
+	 opacity: 1;
 	 background: -moz-linear-gradient(-45deg, #183850 0, #183850 25%, #192c46 50%, #22254c 75%, #22254c 100%);
 	 background: -webkit-linear-gradient(-45deg, #183850 0, #183850 25%, #192c46 50%, #22254c 75%, #22254c 100%);
 	 background-repeat: no-repeat;
@@ -29,7 +29,7 @@
 	 box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.14);
 }
  .floating-chat.expand {
-	 width: 250px;
+	 width: 500px;
 	 max-height: 400px;
 	 height: 400px;
 	 border-radius: 5px;

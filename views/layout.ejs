@@ -29,8 +29,6 @@
 
 
   <link href="/css/nav.css" rel="stylesheet">
-  <link href="/css/chat.css" rel="stylesheet">
-  <link href="/css/cart.css" rel="stylesheet">
   <!-- =======================================================
     Theme Name: Avilon
     Theme URL: https://bootstrapmade.com/avilon-bootstrap-landing-page-template/
@@ -352,32 +350,18 @@ Interested? Let's start our partnership today!</p>
     </div>
   </footer><!-- #footer -->
 
-  <div class="floating-cart">
-    <i class="fas fa-shopping-cart" aria-hidden="true"></i>
-    <div class="cart">
-        <div class="header">
-            <span class="title">
-                First Restaurant
-            </span>
-            <button>
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </button>
-                         
-        </div>
-        <ul class="messages">
-            <li class="other">asdasdasasdasdasasdasdasasdasdasasdasdasasdasdasasdasdas</li>
-            <li class="self">no... we're not human</li>
-        </ul>
-        <div class="footer">
-            <div class="text-box" contenteditable="true" disabled="true"></div>
-            <button id="sendMessage">send</button>
-        </div>
-    </div>
-  </div>
+  <!-- USER_BUTTONS -->
+  <a href="/cart" class="user_button" id="cart_button">
+    <i class="fas fa-shopping-cart"></i>
+    <div class="notif">!</div>
+  </a>
 
+  <a href="#" class="user_button" id="chat_button">
+    <i class="fa fa-comments"></i>
+    <div class="notif">!</div>
+  </a>
 
-
-  <div class="floating-chat">
+  <!-- <div class="floating-chat">
     <i class="fa fa-comments" aria-hidden="true"></i>
     <div class="chat">
         <div class="header">
@@ -398,7 +382,7 @@ Interested? Let's start our partnership today!</p>
             <button id="sendMessage">send</button>
         </div>
     </div>
-  </div>
+  </div> -->
 
   <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
@@ -418,11 +402,9 @@ Interested? Let's start our partnership today!</p>
 
   <!-- Template Main Javascript File -->
   <script src="/js/main.js"></script>
-  <script src="/js/cart.js"></script>
 
   <!--Logins -->
   <script>
-     
       function capitalizeFirstLetter(string) {
           return string.charAt(0).toUpperCase() + string.slice(1);
       } 
@@ -433,7 +415,7 @@ Interested? Let's start our partnership today!</p>
         title: 'Well Done!',
         description: messages,
         type: 'success',
-        position: 'bottom-right',
+        position: 'bottom-left',
         closeTimeout: 2000
         });
       };
@@ -444,7 +426,7 @@ Interested? Let's start our partnership today!</p>
         title: 'Sorry',
         description: messages,
         type: 'error',
-        position: 'bottom-right',
+        position: 'bottom-left',
         closeTimeout: 2000
         });
 
@@ -471,6 +453,8 @@ Interested? Let's start our partnership today!</p>
       $("#drop-after-login").append(dropDowns); 
       document.getElementById("login-button").removeAttribute("data-target");
       document.getElementById("login-button").removeAttribute("data-toggle");
+
+      $(".user_button").css("display","flex");
       }
   </script>
 

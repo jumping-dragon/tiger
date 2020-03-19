@@ -33,6 +33,32 @@ router.get('/', (req,res) =>{
     }
 });
 
+router.get('/cart', (req,res) =>{
+    if(req.session.user){
+      const query = 'SELECT * \
+                     FROM user_cart c\
+                     INNER JOIN products p \
+                     ON c.`product_id` = p.`product_id` \
+                     WHERE c.`user_id`='+req.session.user.user_id;
+
+      db.query(query, function(error, results, fields) {
+        res.render('cart',{
+          cart_load : results,
+          user : req.session.user,
+          success_msg: req.flash('success_msg'),
+          error_msg: req.flash('error_msg') 
+        })
+      });
+    }
+    else{
+    res.render('cart',{
+      user : false,
+      success_msg: req.flash('success_msg'),
+      error_msg: req.flash('error_msg')
+    });
+    }
+});
+
 router.get('/catalog', (req,res) =>{
     if(req.session.user){
     res.render('resto',{
