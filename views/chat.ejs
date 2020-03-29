@@ -1,4 +1,12 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script  
+    type="text/javascript" 
+    src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.16/moment-timezone-with-data.min.js"
+    ></script>
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/chat.css">
@@ -16,66 +24,6 @@
 		</div>
 		<div class="card-body cardz-body contacts_body">
 			<ui class="contacts">
-			<li class="active">
-				<div class="d-flex bd-highlight">
-					<div class="img_cont">
-						<img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
-						<span class="online_icon"></span>
-					</div>
-					<div class="user_info">
-						<span>Khalid</span>
-						<p>Kalid is online</p>
-					</div>
-				</div>
-			</li>
-			<li>
-				<div class="d-flex bd-highlight">
-					<div class="img_cont">
-						<img src="https://2.bp.blogspot.com/-8ytYF7cfPkQ/WkPe1-rtrcI/AAAAAAAAGqU/FGfTDVgkcIwmOTtjLka51vineFBExJuSACLcBGAs/s320/31.jpg" class="rounded-circle user_img">
-						<span class="online_icon offline"></span>
-					</div>
-					<div class="user_info">
-						<span>Taherah Big</span>
-						<p>Taherah left 7 mins ago</p>
-					</div>
-				</div>
-			</li>
-			<li>
-				<div class="d-flex bd-highlight">
-					<div class="img_cont">
-						<img src="https://i.pinimg.com/originals/ac/b9/90/acb990190ca1ddbb9b20db303375bb58.jpg" class="rounded-circle user_img">
-						<span class="online_icon"></span>
-					</div>
-					<div class="user_info">
-						<span>Sami Rafi</span>
-						<p>Sami is online</p>
-					</div>
-				</div>
-			</li>
-			<li>
-				<div class="d-flex bd-highlight">
-					<div class="img_cont">
-						<img src="http://profilepicturesdp.com/wp-content/uploads/2018/07/sweet-girl-profile-pictures-9.jpg" class="rounded-circle user_img">
-						<span class="online_icon offline"></span>
-					</div>
-					<div class="user_info">
-						<span>Nargis Hawa</span>
-						<p>Nargis left 30 mins ago</p>
-					</div>
-				</div>
-			</li>
-			<li>
-				<div class="d-flex bd-highlight">
-					<div class="img_cont">
-						<img src="https://static.turbosquid.com/Preview/001214/650/2V/boy-cartoon-3D-model_D.jpg" class="rounded-circle user_img">
-						<span class="online_icon offline"></span>
-					</div>
-					<div class="user_info">
-						<span>Rashid Samim</span>
-						<p>Rashid left 50 mins ago</p>
-					</div>
-				</div>
-			</li>
 			</ui>
 		</div>
 		<div class="card-footer cardz-footer"></div>
@@ -85,12 +33,13 @@
 			<div class="card-header cardz-header msg_head">
 				<div class="d-flex bd-highlight">
 					<div class="img_cont">
-						<img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+						<img src="" id="resto_thumb" class="rounded-circle user_img">
 						<span class="online_icon"></span>
 					</div>
 					<div class="user_info" id="my_user">
-						<span>Chat with Khalid</span>
-						<p>1767 Messages</p>
+						<span></span>
+						<p></p>
+						<div style="display:none" id="resto_id"></div>
 					</div>
 				</div>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close" >
@@ -99,30 +48,15 @@
 				
 
 			</div>
-			<div class="card-body cardz-body msg_card_body">
-				<div class="d-flex justify-content-start mb-4">
-					<div class="img_cont_msg">
-						<img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
-					</div>
-					<div class="msg_container">
-						Hi, how are you samim?
-						<span class="msg_time">8:40 AM, Today</span>
-					</div>
-				</div>
-				<div class="d-flex justify-content-end mb-4">
-					<div class="msg_container_send">
-						Hi Khalid i am good tnx how about you?
-						<span class="msg_time_send">8:55 AM, Today</span>
-					</div>
-				</div>
+			<div class="card-body cardz-body msg_card_body" id="message_box">
 			</div>
 			<div class="card-footer cardz-footer">
 				<div class="input-group">
 					<div class="input-group-append">
 						<span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
 					</div>
-					<textarea name="" class="form-control type_msg" placeholder="Type your message..."></textarea>
-					<div class="input-group-append">
+					<textarea id="chat_area" class="form-control type_msg" placeholder="Type your message..."></textarea>
+					<div class="input-group-append" id="chat_send_button">
 						<span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
 					</div>
 				</div>
@@ -131,13 +65,125 @@
 	</div>
 </div>
 </div>
+<!--Chat Sockets -->
+<script src="/socket.io/socket.io.js"></script>
+<script>
+if(<%- JSON.stringify(user) %>){
+  let socket = io();
+  let user = <%- JSON.stringify(user) %> ;
 
-<script type="text/javascript">
-	$(document).ready(function(){
-		$('#action_menu_btn').click(function(){
-			$('chat_modal').hide();
-		});
-	});
-	 $('#my_user span').text('Alvin');   
+  $( "#chat_button" ).on( "click", function() {
+    socket.emit('load_chat',user)
+  });
+
+const fillChatMessage = (data) => {
+	$('#my_user span').text(data[0].full_name);  
+	$('#my_user p').text(beautifyTimestamp(data[0].timestamp));  
+	$('#resto_id').html(data[0].restaurant_id);  
+	console.log(data[0]);
+	$('#resto_thumb').attr("src","/uploads/"+data[0].picture);
+	$('#message_box').html('');  
+	for(let i = 0; i < data.length;i++){
+		if(data[i].sender_user == 0){
+			secondPerson(data[i]);
+		}
+		else{
+			firstPerson(data[i]);
+		}
+	}
+}
+
+  const beautifyTimestamp = (data) => {     
+    let now = moment();
+    let ms = moment(now).diff(moment(data));
+    let d = moment.duration(ms);
+    let s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
+
+    if(d.hours() > 0){
+      return (d.hours() + " hours ago");
+    }
+    else if(d.minutes() > 0){
+      return (d.minutes() + " minutes ago");
+    }
+    else{
+      return (d.seconds() + " seconds ago");
+    }
+  }
+
+  const secondPerson = (data) =>{
+  	$( "#message_box").append('\
+  			<div class="d-flex justify-content-start mb-4">\
+				<div class="img_cont_msg">\
+					<img src="/uploads/'+ data.picture +'">\
+				</div>\
+				<div class="msg_container">\
+					'+ data.messages +'\
+					<span class="msg_time">'+beautifyTimestamp(data.timestamp)+'</span>\
+				</div>\
+			</div>')
+  }
+
+  const firstPerson = (data) => {
+   $("#message_box").append('\
+   			<div class="d-flex justify-content-end mb-4">\
+				<div class="msg_container_send">\
+					'+data.messages+'\
+					<span class="msg_time_send">'+beautifyTimestamp(data.timestamp)+'</span>\
+				</div>\
+			</div>')
+  }
+
+  const fillContact = (data) =>{
+  	for(let i = 0; i < data.length;i++){
+  	$( ".contacts").append('\
+  		<li id='+data[i][0].restaurant_id+' class="trigger">\
+			<div class="d-flex bd-highlight">\
+				<div class="img_cont">\
+					<img src="/uploads/'+data[i][0].picture+'" class="rounded-circle user_img">\
+					<span class="online_icon"></span>\
+				</div>\
+				<div class="user_info">\
+					<span>'+data[i][0].full_name+'</span>\
+					<p>'+beautifyTimestamp(data[i][0].timestamp)+'</p>\
+				</div>\
+			</div>\
+		</li>\
+  		')	
+  	}
+
+  	$( ".trigger" ).on( "click", function() {
+        console.log(this.id);
+        fillChatMessage(data[this.id-1]);
+    });
+    
+  }
+
+  	$( "#chat_send_button" ).on( "click", function() {
+        let message = {
+        	message : $.trim($("#chat_area").val()),
+        	user : user,
+        	restaurant_id : $('#resto_id').text()
+        };
+        socket.emit('send_chat',message);
+        $("#chat_area").val("");
+    });
+
+
+
+  // Whenever the server emits 'new message', update the chat body
+  socket.on('fillContact', (data) => {
+  	console.log(data);
+  	fillContact(data)
+    fillChatMessage(data[0]);
+  });
+
+  socket.on('new_message',(data) =>{
+  	if(data[0].sender_user == 0){
+      	secondPerson(data[0]);
+      }
+      else{
+      	firstPerson(data[0]);
+      }
+  })
+}
 </script>
-

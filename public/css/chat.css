@@ -95,7 +95,7 @@ background-color: rgba(0,0,0,0.3) !important;
 			height: 70px;
 			width: 70px;
 	}
-	.img_cont_msg{
+	.img_cont_msg img{
 			height: 40px;
 			width: 40px;
 	}
@@ -209,4 +209,8 @@ background-color: rgba(0,0,0,0.3) !important;
 	.contacts_card{
 		margin-bottom: 15px !important;
 	}
+	}
+
+	.trigger{
+		cursor:pointer;
 	}

@@ -443,30 +443,6 @@
       }
   </script>
 
-  <!--Chat Sockets -->
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    if(<%- JSON.stringify(user) %>){
-      let socket = io();
-      let user = <%- JSON.stringify(user) %> ;
-
-      const addChatMessage = (data) => {
-        var message = '';
-        if (data.numUsers === 1) {
-          message += "there's 1 participant";
-        } else {
-          message += "there are " + data.numUsers + " participants";
-        }
-        log(message);
-      }
-
-           // Whenever the server emits 'new message', update the chat body
-      socket.on('new_message', (data) => {
-        addChatMessage(data);
-      });
-    }
-  </script>
-
 
 </body>
 </html>
