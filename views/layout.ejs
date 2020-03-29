@@ -29,6 +29,8 @@
 
 
   <link href="/css/nav.css" rel="stylesheet">
+
+
   <!-- =======================================================
     Theme Name: Avilon
     Theme URL: https://bootstrapmade.com/avilon-bootstrap-landing-page-template/
@@ -137,8 +139,7 @@
   </div>
 </div>
 
-
-
+<!-- Signup Modal -->
 <div class="modal fade text-center" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -244,9 +245,7 @@
           <div class="col-lg-9 text-center text-lg-left">
             <h3 class="cta-title">Own a Restaurant?</h3>
              <span class="section-divider mx-0"></span>
-            <p class="cta-text"> Would you like thousands of new customers to taste your amazing food? So would we!
-It's simple: we list your menu online, help you process orders, so customers would get their To-Go <br>- in a heartbeat!
-Interested? Let's start our partnership today!</p>
+            <p class="cta-text"> Would you like thousands of new customers to taste your amazing food? So would we! It's simple: we list your menu online, help you process orders, so customers would get their To-Go <br>- in a heartbeat! Interested? Let's start our partnership today!</p>
           </div>
           <div class="col-lg-3 cta-btn-container text-center">
             <a class="cta-btn align-middle" href="/dashboard/login">Join Us Now</a>
@@ -356,33 +355,19 @@ Interested? Let's start our partnership today!</p>
     <div class="notif">!</div>
   </a>
 
-  <a href="#" class="user_button" id="chat_button">
+  <a href="#" class="user_button" id="chat_button" data-target="#chat_modal" data-toggle="modal">
     <i class="fa fa-comments"></i>
     <div class="notif">!</div>
   </a>
 
-  <!-- <div class="floating-chat">
-    <i class="fa fa-comments" aria-hidden="true"></i>
-    <div class="chat">
-        <div class="header">
-            <span class="title">
-                First Restaurant
-            </span>
-            <button>
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </button>
-                         
-        </div>
-        <ul class="messages">
-            <li class="other">asdasdasasdasdasasdasdasasdasdasasdasdasasdasdasasdasdas</li>
-            <li class="self">no... we're not human</li>
-        </ul>
-        <div class="footer">
-            <div class="text-box" contenteditable="true" disabled="true"></div>
-            <button id="sendMessage">send</button>
-        </div>
+  <!-- Chat Modal -->
+  <div class="modal fade" id="chat_modal" aria-hidden="true">
+    <div class="modal-dialog modal-fix">
+      <div class="modal-content modal-fix">
+        <%- include('chat') %>
+      </div>
     </div>
-  </div> -->
+  </div>
 
   <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
@@ -458,6 +443,29 @@ Interested? Let's start our partnership today!</p>
       }
   </script>
 
+  <!--Chat Sockets -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    if(<%- JSON.stringify(user) %>){
+      let socket = io();
+      let user = <%- JSON.stringify(user) %> ;
+
+      const addChatMessage = (data) => {
+        var message = '';
+        if (data.numUsers === 1) {
+          message += "there's 1 participant";
+        } else {
+          message += "there are " + data.numUsers + " participants";
+        }
+        log(message);
+      }
+
+           // Whenever the server emits 'new message', update the chat body
+      socket.on('new_message', (data) => {
+        addChatMessage(data);
+      });
+    }
+  </script>
 
 
 </body>

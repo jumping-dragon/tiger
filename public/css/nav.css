@@ -348,3 +348,16 @@ body.mobile-nav-active #mobile-nav-toggle {
 {
     opacity:0.2 !important;
 }
+
+.modal-fix{
+  border:0;
+  background-color: transparent;
+  width:100% !important;
+}
+
+@media (min-width: 576px){
+.modal-dialog.modal-fix{
+max-width: none;
+margin:3rem auto;
+}
+}

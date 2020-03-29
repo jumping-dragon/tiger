@@ -84,11 +84,11 @@
     `message_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `restaurant_id` int(50) NOT NULL,
     `user_id` int(50) NOT NULL,
-    `order_id` int(50) NOT NULL,
+    `sender_user` BOOLEAN,
     `timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `messages` varchar(255) NOT NULL,
     PRIMARY KEY (`message_id`)
   )ENGINE=InnoDB DEFAULT CHARSET=utf8;
-  INSERT INTO `messages` (`restaurant_id`,`user_id`,`order_id`,`messages`) 
-  VALUES (1, 1 ,1,'TESTING');
+  INSERT INTO `messages` (`restaurant_id`,`user_id`,`sender_user`,`messages`) 
+  VALUES (1, 1 ,false,'TESTING');
 

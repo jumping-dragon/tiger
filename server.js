@@ -13,6 +13,10 @@ const back = require('express-back');
 const fs = require('fs');
 const path = require('path');
 
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
+
 
 // Express-session Config
 app.use(
@@ -60,7 +64,7 @@ app.use(back());
  
 
 
-let server = app.listen(port, () => {
+server.listen(port, () => {
 	console.log(`Server started on port : ${port}!`);
 });
 
@@ -99,5 +103,20 @@ app.get('/email_api', (req,res) =>{
 });
 
 
+//Chat Feature websockets initialization
+io.on('connection', function (client) {
+  console.log("HELLO "+client.id);
+
+  client.on('message', ()=>console.log("MESS"));
+
+  client.on('disconnect', function () {
+    console.log('client disconnect...', client.id)
+  })
+
+  client.on('error', function (err) {
+    console.log('received error from client:', client.id)
+    console.log(err)
+  })
+})
 
 
