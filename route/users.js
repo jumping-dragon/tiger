@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('./db')
+const socket_emitter = require('socket.io')();
 
 router.post('/login', (req,res) =>{
 	const {email, password} = req.body;
@@ -157,9 +158,31 @@ router.post('/order', (req,res) =>{
          if (error) {console.log(error)};
     	 console.log(results);
     	 db.query('DELETE FROM `user_cart` WHERE (cart_id) IN (?) ', [delID],  function(error, results, fields) {
+		    
 		    if(error){throw error};
-		    req.flash('success_msg', 'Successfully Placed Order');
-		    res.redirect(req.prevPath);
+
+    	 	let message = [];
+
+    	 	for(let a = 0; a < cart_id.length;a++){
+			message[a] = [parseInt(restaurantID), req.session.user.user_id,0,"Order Received "+];
+			}
+    	 	
+
+	        //succeed! registering to database!
+	          db.query('INSERT INTO `messages` (restaurant_id, user_id, sender_user, messages) VALUES ?', [message], (err, result) => {
+	            if (err) throw err;
+	             let checkQuery = 'SELECT m.message_id,m.restaurant_id,m.sender_user,m.timestamp,m.messages,r.full_name,r.picture\
+	                               FROM messages m\
+	                               INNER JOIN restaurant_accounts r\
+	                               ON m.`restaurant_id` = r.`restaurant_id` \
+	                               WHERE m.`message_id`='+result.insertId;
+	             db.query(checkQuery, function(error, results, fields) {
+			     req.flash('success_msg', 'Successfully Placed Order');
+	             socket_emitter.emit('new_message',results);
+			     res.redirect(req.prevPath);
+	             })
+	          })
+
 		  });
     });
     }
@@ -169,9 +192,6 @@ router.post('/order', (req,res) =>{
     }
     
 });
-
-
-
 
 
 var requ = { forgot_user_name : "",forgot_user_email : "",forgot_user_password : "" };

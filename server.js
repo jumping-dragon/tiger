@@ -14,9 +14,7 @@ const fs = require('fs');
 const path = require('path');
 
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
-const db = require('./route/db')
-const _ = require('lodash');
+const io = require('./route/sockets')(server);
 
 // Express-session Config
 app.use(
@@ -102,57 +100,4 @@ app.get('/email_api', (req,res) =>{
     res.redirect('req.prevPath');
 });
 
-//Chat Feature websockets initialization
-  io.on('connection', function (client) {
-    console.log("HELLO "+client.id);
-    
-    client.on('load_chat', function (data) {
-    
-       const query = 'SELECT m.message_id,m.restaurant_id,m.sender_user,m.timestamp,m.messages,r.full_name,r.picture\
-       FROM messages m\
-       INNER JOIN restaurant_accounts r\
-       ON m.`restaurant_id` = r.`restaurant_id` \
-       WHERE m.`user_id`='+data.user_id+' ORDER BY timestamp'
-      
-       db.query(query, function(error, results, fields) {
-          let grouped =  _.groupBy(results, function(car) {
-                          return car.restaurant_id;
-                        });
-          let zhenglihao = Object.keys(grouped).map(i => grouped[i])
-          console.log(zhenglihao);
-          client.emit('fillContact', zhenglihao);
-       });
-    })
 
-    client.on('send_chat', function (data) {
-       let message = {
-          restaurant_id : data.restaurant_id,
-          user_id : data.user.user_id,
-          sender_user : true,
-          messages : data.message
-        }
-        //succeed! registering to database!
-          db.query('INSERT INTO `messages` SET ?', message, (err, result) => {
-            console.log(result);
-            if (err) throw err;
-             let checkQuery = 'SELECT m.message_id,m.restaurant_id,m.sender_user,m.timestamp,m.messages,r.full_name,r.picture\
-                               FROM messages m\
-                               INNER JOIN restaurant_accounts r\
-                               ON m.`restaurant_id` = r.`restaurant_id` \
-                               WHERE m.`message_id`='+result.insertId;
-             db.query(checkQuery, function(error, results, fields) {
-             client.emit('new_message',results)
-             })
-          })
-
-    })
-
-    client.on('disconnect', function () {
-      console.log('client disconnect...', client.id)
-    })
-
-    client.on('error', function (err) {
-      console.log('received error from client:', client.id)
-      console.log(err)
-    })
-  })

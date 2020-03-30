@@ -1,4 +1,4 @@
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script  
     type="text/javascript" 
     src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"
@@ -8,6 +8,8 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.16/moment-timezone-with-data.min.js"
     ></script>
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+  <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
+  <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/chat.css">
 
@@ -18,7 +20,7 @@
 			<div class="input-group">
 				<input type="text" placeholder="Search..." name="" class="form-control search">
 				<div class="input-group-prepend">
-					<span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
+					<span class="input-group-text search_btn"><i class="mdi mdi-magnify"></i></span>
 				</div>
 			</div>
 		</div>
@@ -39,11 +41,11 @@
 					<div class="user_info" id="my_user">
 						<span></span>
 						<p></p>
-						<div style="display:none" id="resto_id"></div>
+						<div style="display:none" id="user_id"></div>
 					</div>
 				</div>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close" >
-         			 <span id="action_menu_btn"><i class="fas fa-times"></i></span>
+         			 <span id="action_menu_btn"><i class="mdi mdi-close"></i></span>
        			</button>
 				
 
@@ -53,11 +55,11 @@
 			<div class="card-footer cardz-footer">
 				<div class="input-group">
 					<div class="input-group-append">
-						<span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+						<span class="input-group-text attach_btn"><i class="mdi mdi-attachment"></i></span>
 					</div>
 					<textarea id="chat_area" class="form-control type_msg" placeholder="Type your message..."></textarea>
 					<div class="input-group-append" id="chat_send_button">
-						<span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
+						<span class="input-group-text send_btn"><i class="mdi mdi-send-circle"></i></span>
 					</div>
 				</div>
 			</div>
@@ -68,23 +70,23 @@
 <!--Chat Sockets -->
 <script src="/socket.io/socket.io.js"></script>
 <script>
+  console.log(<%- JSON.stringify(user) %>);
 if(<%- JSON.stringify(user) %>){
   let socket = io();
   let user = <%- JSON.stringify(user) %> ;
 
-  $( "#chat_button" ).on( "click", function() {
-    socket.emit('load_chat',user)
-  });
+  socket.emit('admin_load_chat',user)
+
 
 const fillChatMessage = (data) => {
-	$('#my_user span').text(data[0].full_name);  
+	$('#my_user span').text(data[0].name);  
 	$('#my_user p').text(beautifyTimestamp(data[0].timestamp));  
-	$('#resto_id').html(data[0].restaurant_id);  
+	$('#user_id').html(data[0].user_id);  
 	console.log(data[0]);
-	$('#resto_thumb').attr("src","/uploads/"+data[0].picture);
+	$('#resto_thumb').attr("src","/uploads/blank_profile.jpg");
 	$('#message_box').html('');  
 	for(let i = 0; i < data.length;i++){
-		if(data[i].sender_user == 0){
+		if(data[i].sender_user == 1){
 			secondPerson(data[i]);
 		}
 		else{
@@ -113,9 +115,6 @@ const fillChatMessage = (data) => {
   const secondPerson = (data) =>{
   	$( "#message_box").append('\
   			<div class="d-flex justify-content-start mb-4">\
-				<div class="img_cont_msg">\
-					<img src="/uploads/'+ data.picture +'">\
-				</div>\
 				<div class="msg_container">\
 					'+ data.messages +'\
 					<span class="msg_time">'+beautifyTimestamp(data.timestamp)+'</span>\
@@ -140,11 +139,11 @@ const fillChatMessage = (data) => {
   		<li id='+data[i][0].restaurant_id+' class="trigger">\
 			<div class="d-flex bd-highlight">\
 				<div class="img_cont">\
-					<img src="/uploads/'+data[i][0].picture+'" class="rounded-circle user_img">\
+					<img src="/uploads/blank_profile.jpg" class="rounded-circle user_img">\
 					<span class="online_icon"></span>\
 				</div>\
 				<div class="user_info">\
-					<span>'+data[i][0].full_name+'</span>\
+					<span>'+data[i][0].name+'</span>\
 					<p>'+beautifyTimestamp(data[i][0].timestamp)+'</p>\
 				</div>\
 			</div>\
@@ -162,10 +161,9 @@ const fillChatMessage = (data) => {
   	$( "#chat_send_button" ).on( "click", function() {
         let message = {
         	message : $.trim($("#chat_area").val()),
-        	user_id : user.user_id,
-        	restaurant_id : $('#resto_id').text(),
-        	sender_user: 1
-
+        	user_id : $('#user_id').text(),
+        	restaurant_id : user.restaurant_id,
+        	sender_user: 0
         };
         socket.emit('send_chat',message);
         $("#chat_area").val("");
@@ -174,14 +172,14 @@ const fillChatMessage = (data) => {
 
 
   // Whenever the server emits 'new message', update the chat body
-  socket.on('fillContact', (data) => {
+  socket.on('fillContactAdmin', (data) => {
   	console.log(data);
-  	fillContact(data)
+  	fillContact(data);
     fillChatMessage(data[0]);
   });
 
   socket.on('new_message',(data) =>{
-  	if(data[0].sender_user == 0){
+  	if(data[0].sender_user == 1){
       	secondPerson(data[0]);
       }
       else{

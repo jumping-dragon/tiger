@@ -342,6 +342,7 @@
           scrollY: 300,
           processing: true,
           serverSide: true,
+          rowId: 'order_id',
           ajax: "/admin/api/orders",
           "createdRow": function( row, data, dataIndex ) {
             for(var a = 0; a <= dataIndex ; a++){
@@ -407,8 +408,6 @@
         $("#insertButton").on("click", function(){
               
         })
-
-
 
          $('#recent-orders tbody').on( 'click', 'tr', function () {
               $(this).toggleClass('selected');

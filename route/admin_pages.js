@@ -15,6 +15,18 @@ router.get('/', (req,res) =>{
     }
 });
 
+router.get('/messages', (req,res) =>{
+    if(req.session.res_user){
+    res.render('admin_chat',{
+      user : req.session.res_user,
+      layout: 'admin_layout'
+    })
+    }
+    else{
+    res.redirect('/dashboard/login')
+    }
+});
+
 router.get('/analytics', (req,res) =>{
 	if(req.session.res_user){
     res.render('body',{

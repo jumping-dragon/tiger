@@ -37,7 +37,7 @@ router.post('/login', (req,res) =>{
 	if (email && password) {
 		db.query('SELECT * FROM `restaurant_accounts` WHERE email = ? AND `password` = ?', [email, password], function(error, results, fields) {
 			console.log(results);
-			if (results) {
+			if (results.length > 0) {
 				req.session.loggedin = true;
 				req.session.res_user = results[0];
 				res.redirect('/dashboard');
@@ -109,7 +109,7 @@ router.get('/logout', function(req, res, next) {
   }
 });
 
-router.get('/api/orders', async function(req, res) {
+router.get('/api/orders', function(req, res) {
  // Get the query string paramters sent by Datatable
   const requestQuery = req.query;
   /**
@@ -177,6 +177,7 @@ router.get('/api/orders', async function(req, res) {
     // Directly send this data as output to Datatable
     res.send(data)
   })
+
 });
 
 router.post('/order', (req,res) =>{
@@ -203,7 +204,9 @@ router.post('/order', (req,res) =>{
 router.post('/receipt', (req,res) =>{
   const {orderID} = req.body;
   console.log("deleting order_id :" + orderID);
-  db.query('DELETE FROM `orders` WHERE order_id = ? ', [orderID],  function(error, results, fields) {
+  let delID = orderID.split(",");
+  console.log(delID);
+  db.query('DELETE FROM `orders` WHERE (order_id) IN (?) ', [delID],  function(error, results, fields) {
     if(error){throw error};
     res.redirect('/dashboard/');
   });
@@ -227,7 +230,7 @@ router.post('/profile', (req,res) =>{
   });
 });
 
-router.get('/api/products', async function(req, res) {
+router.get('/api/products', function(req, res) {
  // Get the query string paramters sent by Datatable
   const requestQuery = req.query;
   /**

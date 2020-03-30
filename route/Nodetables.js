@@ -21,8 +21,8 @@ class NodeTable {
   }
 
   order() {
-    let order = "";
-    var orderBy = [];
+    let order = [];
+    let orderBy = [];
 
     if (this.request.order.length > 0) {
       let dtColumns = NodeTable.pluck(this.columns, "dt");
