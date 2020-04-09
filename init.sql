@@ -29,7 +29,7 @@
   INSERT INTO `restaurant_accounts` (`full_name`,`username`, `email`,`password`,`picture`) 
   VALUES ('first restaurant', 'first username' , 'first@resto.com', 'first-pass','blank_profile.jpg');
   INSERT INTO `restaurant_accounts` (`full_name`,`username`, `email`,`password`,`picture`) 
-  VALUES ('second restaurant', 'second username' , 'second@resto.com', 'second-pass','blank_profile.jpg')
+  VALUES ('second restaurant', 'second username' , 'second@resto.com', 'second-pass','blank_profile.jpg');
 
 -- Create products table
   CREATE TABLE IF NOT EXISTS `products`(
