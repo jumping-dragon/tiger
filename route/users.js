@@ -120,7 +120,6 @@ router.post('/cart_order', (req,res) =>{
         comments : Comments
       }
 
-      console.log(insertMenu)
       db.query('INSERT INTO `user_cart` SET ? ', [insertMenu],  function(error, results, fields) {
         console.log(results);
         if (error) {console.log(error)};
@@ -145,14 +144,12 @@ router.post('/order', (req,res) =>{
 	insertMenu[a] = [parseInt(restaurantID),req.session.user.user_id,parseInt(product[a]),parseInt(quantity[a]),comments[a],false]
 	}
 
-	console.log(insertMenu);
 	let sql = "INSERT INTO orders (restaurant_id, user_id, product_id,quantity,comments,completed) VALUES ?";
 
     let delID = [];
 	for(let a = 0; a < cart_id.length;a++){
 	delID[a] = [parseInt(cart_id[a])];
 	}
-	console.log(delID);
 
     db.query(sql, [insertMenu],  function(error, results, fields) {
          if (error) {console.log(error)};
@@ -164,7 +161,7 @@ router.post('/order', (req,res) =>{
     	 	let message = [];
 
     	 	for(let a = 0; a < cart_id.length;a++){
-			message[a] = [parseInt(restaurantID), req.session.user.user_id,0,"Order Received "+];
+			message[a] = [parseInt(restaurantID), req.session.user.user_id,0,"Order Received"];
 			}
     	 	
 
@@ -193,6 +190,48 @@ router.post('/order', (req,res) =>{
     
 });
 
+router.post('/topup', (req,res) =>{
+  	if(req.session.user){
+    const {topUpCode1, topUpCode2, topUpCode3} = req.body;
+	    if(topUpCode1 && topUpCode2 && topUpCode3){
+	    	db.query('SELECT * FROM `points` WHERE `first` = ? AND `second` = ? AND `third` = ?', [topUpCode1, topUpCode2,topUpCode3], function(error, results, fields) {
+				if (results.length > 0) {
+					console.log(results);
+					if(results[0].user_id !== null){
+						req.flash('error_msg', 'Error Authentication Code Has Been Used');
+						res.redirect(req.prevPath);
+						return
+					}
+					else{
+					let TopUpuser = {
+				        user_id : req.session.user.user_id,
+				    }
+				      db.query('UPDATE `points` SET ? WHERE `first` = ? AND `second` = ? AND `third` = ?', [TopUpuser,topUpCode1,topUpCode2,topUpCode3],  function(err, results, fields) {
+					    if(err){throw err};
+					    req.flash('success_msg', 'Successfully Redeemed Coupon');
+				        res.redirect(req.prevPath);
+				        return
+				      });
+					}
+				}
+				else {
+					req.flash('error_msg', 'Error Authentication Code');
+					res.redirect(req.prevPath);
+					return
+				}			
+			});
+	    }
+	    else{
+	    req.flash('error_msg', 'Please Fill in All Authentication Code');
+	    res.redirect(req.prevPath);
+	    return
+	    }
+    }
+    else{
+    req.flash('error_msg', 'Please Login First to topup');
+    res.redirect(req.prevPath);
+    }
+});
 
 var requ = { forgot_user_name : "",forgot_user_email : "",forgot_user_password : "" };
 module.exports.route = router;

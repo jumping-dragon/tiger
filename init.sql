@@ -94,3 +94,17 @@
   INSERT INTO `messages` (`restaurant_id`,`user_id`,`sender_user`,`messages`) 
   VALUES (1, 1 ,false,'TESTING');
 
+  -- Create Tiger Points table
+  CREATE TABLE IF NOT EXISTS `points` (
+    `point_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_id` int(50),
+    `time_used` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `first` varchar(5) NOT NULL,
+    `second` varchar(5) NOT NULL,
+    `third` varchar(5) NOT NULL,
+    `point_value` int(50) NOT NULL,
+    PRIMARY KEY (`point_id`)
+  )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  INSERT INTO `points` (`first`,`second`,`third`,`point_value`) 
+  VALUES ('1234' ,'abcd','ghji',50);
+

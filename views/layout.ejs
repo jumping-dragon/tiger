@@ -231,6 +231,58 @@
   </div>
 </div>
 
+<!-- TopUp Modal -->
+<div class="modal fade text-center" id="topUpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title w-100 text-center" id="exampleModalLabel">Tiger Points Top-up</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form">
+              <div id="errormessage"></div>
+              <form action="/users/topup" method="post" role="form" class="loginForm">
+                  <div class="form-group">
+                     <span>Enter Authentication Code (</span>
+                     <span id="input_number">0</span>
+                     <span>/ 12 )</span>
+                     <div class="input-group">
+                         <input type="text" class="form-control text-center" name="topUpCode1" id="topUp_Code1" maxlength="4" onkeyup="updateInput()"/>
+
+                         <div class="input-group-prepend input-group-append">
+                            <span class="input-group-text" id="basic-addon1">-</span>
+                         </div>
+
+                         <input type="text" class="form-control text-center" name="topUpCode2" id="topUp_Code2" maxlength="4" onkeyup="updateInput()"/>
+
+                         <div class="input-group-prepend input-group-append">
+                            <span class="input-group-text" id="basic-addon1">-</span>
+                         </div>
+
+                         <input type="text" class="form-control text-center" name="topUpCode3" id="topUp_Code3" maxlength="4" onkeyup="updateInput()"/>
+
+                     </div>
+                    <div class="validation"></div>
+                  </div>
+                <div class="text-center"><button class="form-control modal-login-btn" title="Send Login">Redeem</button></div>
+              </form>
+            </div>
+      </div>
+      <div class="modal-footer" style="text-align:right">
+        <img src="https://pngimage.net/wp-content/uploads/2018/06/7-eleven-logo-png-5.png" class="support_logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/FamilyMart_logo.svg/1200px-FamilyMart_logo.svg.png" class="support_logo">
+        <img src="https://uupon.tw/upload/store/27ccf6fbb40000046a35.jpg" class="support_logo">
+        <img src="https://ecservice.okmart.com.tw/Content/LogoPic/logo.png" class="support_logo">
+        <img src="https://www.logolynx.com/images/logolynx/db/dbbca19db07f7bec8eaeca5eb06d3405.png" class="support_logo">
+        <img src="https://r-fa.bstatic.com/xdata/images/xphoto/1236x412/34604421.jpg?k=595bed24fc1ecf7f8e3769de122d894c15f9fbf11cc549b9b5a0da537f91aa9c&o=" class="support_logo">
+      </div>
+    </div>
+  </div>
+</div>
+
   <main id="main">   
   <%- body %>
   </main>
@@ -426,7 +478,7 @@
       if(<%- JSON.stringify(user) %>){
       let user = <%- JSON.stringify(user) %> ;
       let dropDowns = '<ul>\
-      <li id="btn-logged-in"><a href="/profile#history" class="btn-logged-in">My Orders History</a></li>\
+      <li id="btn-logged-in"><a href="#" class="btn-logged-in" data-toggle="modal" data-target="#topUpModal">Top-up Points</a></li>\
       <li id="btn-logged-in"><a href="/users/logout" class="btn-logged-in">Logout</a></li>\
       </ul>\
       ';
@@ -440,6 +492,38 @@
       document.getElementById("login-button").removeAttribute("data-toggle");
 
       $(".user_button").css("display","flex");
+
+
+      $("#topUp_Code2").attr('disabled', 'disabled');
+      $("#topUp_Code3").attr('disabled', 'disabled');
+      
+      function updateInput() {
+        let input_number = $("#topUp_Code1" ).val();
+
+        if(input_number.length >= 4){
+          $("#topUp_Code2" ).removeAttr('disabled');
+          if ($("#topUp_Code2").not(":focus") && input_number.length < 8) {
+            $("#topUp_Code2" ).focus();
+          }
+          input_number += $("#topUp_Code2").val();
+          $("#topUp_Code3" ).attr('disabled', 'disabled');
+          
+          if(input_number.length >= 8){
+            $("#topUp_Code3" ).removeAttr('disabled');
+            if ($("#topUp_Code3").not(":focus")) {
+            $("#topUp_Code3" ).focus();
+            }
+            input_number += $("#topUp_Code3").val();
+          }
+        }
+        else{
+          $("#topUp_Code2" ).attr('disabled', 'disabled');
+          $("#topUp_Code3" ).attr('disabled', 'disabled');
+          input_number = $("#topUp_Code1" ).val();
+        }
+        $("#input_number").text(input_number.length);
+      }
+
       }
   </script>
 

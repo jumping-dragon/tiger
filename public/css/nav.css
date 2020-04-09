@@ -5,6 +5,10 @@
 
 /* Nav Menu Essentials */
 
+.support_logo{
+  width:60px;
+}
+
 .user_button{
   position:fixed;
   display: none;
@@ -86,7 +90,7 @@
 }
 
 .nav-menu ul li {
-  min-width: 180px;
+  min-width: 140px;
 }
 
 /* Nav Menu Arrows */
