@@ -10,7 +10,7 @@
     `student_id` varchar(100) NOT NULL,
     `phone_number` varchar(100) NOT NULL,
     `password` varchar(255) NOT NULL,
-    `points` int(50) NOT NULL
+    `points` int(50) NOT NULL,
     PRIMARY KEY (`user_id`)
   )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
