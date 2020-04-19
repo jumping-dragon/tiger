@@ -528,7 +528,13 @@
         $("#input_number").text(input_number.length);
       }
 
+
+      if(user.points != null){
       $("#points_display").children("span").html("$ "+user.points);
+      }
+      else{
+      $("#points_display").children("span").html("TP");
+      }
 
       }
   </script>
