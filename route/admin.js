@@ -81,7 +81,8 @@ router.post('/signup', (req,res) =>{
     let restaurant = {
       full_name : name,
       email : email,
-      password : password
+      password : password,
+      is_open : false
     };
     //succeed! registering to database!
     db.query('INSERT INTO `restaurant_accounts` SET ?', restaurant, (err, results) => {
@@ -355,12 +356,30 @@ router.post('/insert', (req,res) =>{
 });
 
 router.post('/delete', (req,res) =>{
-  const {menuID} = req.body;
+  const {is_open} = req.body;
   console.log("deleting product_id :" + menuID);
   db.query('DELETE FROM `products` WHERE product_id = ? ', [menuID],  function(error, results, fields) {
     if(error){throw error};
     res.redirect('/dashboard/manage');
   });
+});
+
+
+router.post('/changeStatus', (req,res) =>{
+  const {is_open} = req.body;
+  let updateProfile = {
+    is_open : is_open
+  }
+
+  db.query('UPDATE `restaurant_accounts` SET ? WHERE `restaurant_id` = ?', [updateProfile,req.session.res_user.restaurant_id],  function(err, results, fields) {
+    if(err){throw err};
+    db.query('SELECT * FROM `restaurant_accounts` WHERE `restaurant_id` = ?', [req.session.res_user.restaurant_id], function(error, results, fields) {
+    console.log(results);
+    req.session.res_user = results[0];
+    res.redirect('/dashboard/');
+    })
+  });
+  
 });
 
 router.post('/security',(req,res) =>{

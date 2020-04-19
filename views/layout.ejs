@@ -412,6 +412,10 @@
     <div class="notif">!</div>
   </a>
 
+  <a href="#" class="user_button" id="points_display" data-target="#" data-toggle="modal">
+    <span>TP</span>
+  </a>
+
   <!-- Chat Modal -->
   <div class="modal fade" id="chat_modal" aria-hidden="true">
     <div class="modal-dialog modal-fix">
@@ -523,6 +527,8 @@
         }
         $("#input_number").text(input_number.length);
       }
+
+      $("#points_display").children("span").html("$ "+user.points);
 
       }
   </script>

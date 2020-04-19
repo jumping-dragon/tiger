@@ -10,11 +10,12 @@
     `student_id` varchar(100) NOT NULL,
     `phone_number` varchar(100) NOT NULL,
     `password` varchar(255) NOT NULL,
+    `points` int(50) NOT NULL
     PRIMARY KEY (`user_id`)
   )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-  INSERT INTO `user_accounts` (`name`, `email`, `student_id`,`phone_number`,`password`) 
-  VALUES ('first name', 'first@first.com', 'b10000001','00000000001','first-pass');
+  INSERT INTO `user_accounts` (`name`, `email`, `student_id`,`phone_number`,`password`,`points`) 
+  VALUES ('first name', 'first@first.com', 'b10000001','00000000001','first-pass',0);
 
 -- Create restaurant-accounts table
   CREATE TABLE IF NOT EXISTS `restaurant_accounts` (
@@ -24,12 +25,14 @@
     `email` varchar(100) NOT NULL,
     `password` varchar(255) NOT NULL,
     `picture` varchar(100),
+    `is_open` BOOLEAN NOT NULL,
     PRIMARY KEY (`restaurant_id`)
   )ENGINE=InnoDB DEFAULT CHARSET=utf8;
-  INSERT INTO `restaurant_accounts` (`full_name`,`username`, `email`,`password`,`picture`) 
-  VALUES ('first restaurant', 'first username' , 'first@resto.com', 'first-pass','blank_profile.jpg');
-  INSERT INTO `restaurant_accounts` (`full_name`,`username`, `email`,`password`,`picture`) 
-  VALUES ('second restaurant', 'second username' , 'second@resto.com', 'second-pass','blank_profile.jpg');
+
+  INSERT INTO `restaurant_accounts` (`full_name`,`username`, `email`,`password`,`picture`,`is_open`) 
+  VALUES ('first restaurant', 'first username' , 'first@resto.com', 'first-pass','blank_profile.jpg',0);
+  INSERT INTO `restaurant_accounts` (`full_name`,`username`, `email`,`password`,`picture`,`is_open`) 
+  VALUES ('second restaurant', 'second username' , 'second@resto.com', 'second-pass','blank_profile.jpg',0);
 
 -- Create products table
   CREATE TABLE IF NOT EXISTS `products`(
@@ -107,4 +110,5 @@
   )ENGINE=InnoDB DEFAULT CHARSET=utf8;
   INSERT INTO `points` (`first`,`second`,`third`,`point_value`) 
   VALUES ('1234' ,'abcd','ghji',50);
-
+ INSERT INTO `points` (`first`,`second`,`third`,`point_value`) 
+  VALUES ('1234' ,'1234','1234',10);

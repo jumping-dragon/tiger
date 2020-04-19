@@ -86,7 +86,7 @@ router.get('/resprofile/:restaurant_id', (req,res) =>{
                    FROM products p\
                    INNER JOIN restaurant_accounts r \
                    ON r.`restaurant_id` = p.`restaurant_id` \
-                   WHERE p.restaurant_id='+req.params.restaurant_id;
+                   WHERE r.is_open= 1 AND p.restaurant_id= '+req.params.restaurant_id;
 
     db.query(query, function(error, results, fields) {
       console.log(results);
@@ -99,13 +99,18 @@ router.get('/resprofile/:restaurant_id', (req,res) =>{
       })
       }
       else{
-      res.render('resprofile',{
-        user : false,
-        success_msg: req.flash('success_msg'),
-        error_msg: req.flash('error_msg'),
-        login_prompt: req.flash('login_prompt'),
-        restaurant_load: results
-      });
+          if(results.length > 0){
+          res.render('resprofile',{
+            user : false,
+            success_msg: req.flash('success_msg'),
+            error_msg: req.flash('error_msg'),
+            login_prompt: req.flash('login_prompt'),
+            restaurant_load: results
+          });
+          }
+          else{
+          res.redirect('/');
+          }
       }
     });
 });

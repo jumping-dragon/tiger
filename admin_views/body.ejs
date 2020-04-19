@@ -23,7 +23,10 @@
           <button type="button" class="btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0">
             <i class="mdi mdi-plus text-muted"></i>
           </button>
-          <button class="btn btn-primary mt-2 mt-xl-0">Generate report</button>
+          <form action="/admin/changeStatus" method="post" role="form" id="changeStatus">  
+              <input type="text" id="status"  style="display:none" name="is_open">  
+              <button class="btn btn-danger mt-2 mt-xl-0" id="open" type="submit">Close</button>
+          </form>
         </div>
       </div>
     </div>
@@ -424,6 +427,25 @@
               console.log(order_id_array)
               $('#orderID').attr('value',order_id_array);
           })
+
+
+          if(<%- JSON.stringify(user) %>){
+            let user = <%- JSON.stringify(user) %> ;
+            console.log(user.is_open);
+            if(user.is_open == 0){
+              $('#open').html('Close');
+              $('#open').addClass('btn-danger');
+              $('#open').removeClass('btn-success');
+              $('#status').val(1);
+            }else{
+              $('#open').html('Open');
+              $('#open').removeClass('btn-danger');
+              $('#open').addClass('btn-success');
+              $('#status').val(0);
+            }
+
+
+          }
 
 
 

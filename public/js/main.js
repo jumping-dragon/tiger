@@ -6,11 +6,13 @@ jQuery(document).ready(function($) {
       $('.back-to-top').fadeIn('slow');
       $('#cart_button').css({"bottom": "60px"})
       $('#chat_button').css({"bottom": "140px"})
+      $('#points_display').css("bottom","60px")
       $('#header').addClass('header-fixed');
     } else {
       $('.back-to-top').fadeOut('slow');
       $('#cart_button').css("bottom","20px")
       $('#chat_button').css({"bottom": "100px"})
+      $('#points_display').css("bottom","20px")
       $('#header').removeClass('header-fixed');
     }
   });
@@ -21,6 +23,7 @@ jQuery(document).ready(function($) {
     $('.back-to-top').fadeIn('slow');
     $('#cart_button').css({"bottom": "60px"})
     $('#chat_button').css({"bottom": "140px"})
+    $('#points_display').css("bottom","60px")
     $('#header').addClass('header-fixed');
   }
 

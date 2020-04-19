@@ -45,6 +45,22 @@
   font-size: 13px;
 }
 
+#points_display{
+  position:fixed;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding-left: 0;
+  bottom:20px;
+  right: 100px;
+  background: linear-gradient(135deg, #efcc63, #ea8901);
+  color:rgba(255, 255, 255, 0.7);
+  border-radius:10px;
+  text-align:center;
+  box-shadow: 2px 2px 10px rgba(56, 56, 56, 0.4);
+  font-size: 24px;
+}
+
 #chat_button{
   background:linear-gradient(to right, #2193b0, #6dd5ed); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }

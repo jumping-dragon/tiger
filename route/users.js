@@ -56,7 +56,8 @@ router.post('/signup', (req,res) =>{
 			email : email,
 			student_id : student_id,
 			phone_number : phone_number,
-			password : password
+			password : password,
+			points : 0
 		}
 		//succeed! registering to database!
 	    db.query('INSERT INTO `user_accounts` SET ?', user, (err, result) => {
@@ -206,11 +207,21 @@ router.post('/topup', (req,res) =>{
 					let TopUpuser = {
 				        user_id : req.session.user.user_id,
 				    }
+
+				    let topUpTarget = results[0].point_value;
+				    
 				      db.query('UPDATE `points` SET ? WHERE `first` = ? AND `second` = ? AND `third` = ?', [TopUpuser,topUpCode1,topUpCode2,topUpCode3],  function(err, results, fields) {
 					    if(err){throw err};
-					    req.flash('success_msg', 'Successfully Redeemed Coupon');
-				        res.redirect(req.prevPath);
-				        return
+
+						  db.query('UPDATE `user_accounts` SET `points` = `points` + ? WHERE `user_id` = ?', [topUpTarget,req.session.user.user_id],  function(err, results, fields) {
+						    if(err){throw err};
+						    db.query('SELECT * FROM `user_accounts` WHERE `user_id` = ?' , [req.session.user.user_id], function(error, results, fields) {
+								req.session.user = results[0];
+							    req.flash('success_msg', 'Successfully Redeemed Coupon');
+						        res.redirect(req.prevPath);
+						        return
+							});
+					      });
 				      });
 					}
 				}
