@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('./db')
 const _ = require('lodash');
+const crypto = require('crypto');
 
 router.get('/app', (req,res) =>{
     req.flash('success_msg', 'Hello');
@@ -115,6 +116,8 @@ router.get('/resprofile/:restaurant_id', (req,res) =>{
     });
 });
 
+
+
 router.get('/catalog', (req,res) =>	{
     if(req.session.user){
     res.render('resto',{
@@ -131,6 +134,24 @@ router.get('/catalog', (req,res) =>	{
     });
     }
 });
+
+router.get('/point_machine/:point_value', (req,res) =>{
+    crypto.randomBytes(12, function(err, raw) {
+      console.log(raw.toString('hex').slice(0,4) + "-" + raw.toString('hex').slice(5,9) + "-"+ raw.toString('hex').slice(10,14));
+      let insertCoupon = {
+          first : raw.toString('hex').slice(0,4),
+          second: raw.toString('hex').slice(5,9),
+          third : raw.toString('hex').slice(10,14),
+          point_value : req.params.point_value
+      }
+
+      db.query('INSERT INTO `points` SET ? ', insertCoupon,  function(error, results, fields) {
+        console.log(results);
+        if (error) {console.log(error)};
+        res.redirect(req.prevPath);
+      });
+   });
+})
 
 
 router.get('/profile', (req,res) =>{
